@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Football Coach</title>
+
+{% endblock %}
+
+
+{% block body %}
+
+    <div class = "mainHeader-container">
+
+        <h1>Football Coach</h1>
+
+    </div>
+
+    <div class ="EnteredTable-container">
+        
+        <table>
+            
+            <tr>
+
+                <th>Time Played</th>
+                <th>Distance Travelled</th>
+                <th>Passes Attempted</th>
+                <th>Passes Complete</th>
+                <th>Shots On Target</th>
+                <th>Goals</th>
+                <th>Assists</th>
+
+            </tr>
+
+            <tr>
+
+                <td>{{ data.time_played }}</td>
+                <td>{{ data.distance_ran }}  {{ data.unit }}</td>
+                <td>{{ data.passes_attempted }}</td>
+                <td>{{ data.passes_complete }}</td>
+                <td>{{ data.shots_on_target }}</td>
+                <td>{{ data.player_goals }}</td>
+                <td>{{ data.player_assists }}</td>
+
+            </tr>
+
+
+        </table>
+
+
+    </div>
+
+
+{% endblock %}

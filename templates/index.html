@@ -1,0 +1,65 @@
+
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Football Coach</title>
+
+{% endblock %}
+
+
+{% block body %}
+
+
+    <div class = "mainHeader-container">
+
+        <h1>Football Coach</h1>
+
+    </div>
+
+    {% if error %}
+    <div class = "errorStyle">
+
+        <p>{{ error }}</p>
+
+    </div>
+    {% endif%}
+
+    <div class = "mainForm-container">
+        <form action = "/" method = "POST">
+
+            <label for ="timePlayed">Time Played</label>
+            <input type="number" id ="timePlayed" name="timePlayed" max="122" min="0" step="1" placeholder="Enter Minutes played Only" required>
+
+            <label for ="distanceRan">Distance Ran</label>
+            <input type ="number" id="distanceRan" name="distanceRan" min="0" step="1" placeholder="Enter Distance Travelled" required>
+            <label for ="unit">Unit</label>
+            <select id ="unit" name="unit" required>
+
+                <option value="m">M</option>
+                <option value="km">Km</option>
+
+            </select>
+
+            <label for ="passesAttempted">Passes Attempted</label>
+            <input type ="number" id = "passesAttempted" name="passesAttempted" max="461" min="0"step="1" placeholder="Enter number of passes attempted" required>
+
+            <label for ="passesComplete">Passes Complete</label>
+            <input type ="number" id = "passesComplete" name="passesComplete" max="461 "min="0"step="1" placeholder="Enter number of passes Complete">
+
+            <label for ="shotsOnTarget">Shots on Target</label>
+            <input type ="number" id = "shotsOnTarget" name="shotsOnTarget" max="20" min="0" step="1" placeholder="Enter number of shots on target" required>
+
+            <label for ="goals">Goals</label>
+            <input type ="number" id="goals" name="goals" max="20" min="0" step="1" placeholder="Enter number of goals" required>
+
+            <label for ="assists">Assists</label>
+            <input type="number" id="assists" name="assists" max="20" min="0" step="1" placeholder="Enter number of assists" required>
+
+            <input type="submit" value="enter">
+
+        </form>
+    </div>
+
+
+{% endblock %}
