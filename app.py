@@ -3,44 +3,48 @@ from flask import Flask,render_template,request,session,redirect
 app = Flask(__name__)
 app.secret_key = 'your-secret-key' 
 
-
-
-def distance_per_minute(distance,minutes):
-
-    distance_ran_per_min = distance / minutes * 100
-
-    return distance_ran_per_min
-
 def passing_calculation(passes_att,passes_comp):
     
-    passing_accuracy = passes_att/passes_comp * 100
+    passing = (passes_comp/passes_att) * 100
+
+    passing_accuracy = "{:.2f}".format(passing) 
 
     return passing_accuracy
 
 
 def shots_calculation(shots_att,shots_on,goals):
 
-    shot_accurracy = shots_att / shots_on * 100
+    shot1 = (shots_on / shots_att) * 100
 
-    shot_conversion = shot_accurracy / goals * 100
+    shot2 = (goals / shot1) * 100
+
+    shot_accurracy = "{:.2f}".format(shot1)
+
+    shot_conversion = "{:.2f}".format(shot2)
 
     return shot_accurracy,shot_conversion
 
 def goal_rate(goals,minutes):
 
-    goals_scored_rate = goals/minutes * 100
+    goals_scored = (goals/minutes) * 100
+
+    goals_scored_rate = "{:.2f}".format(goals_scored)
 
     return goals_scored_rate
 
 def assist_rate(assist,minutes):
 
-    assists_rate = assist/minutes * 100
+    assists1 = (assist/minutes) * 100
+
+    assists_rate = "{:.2f}".format(assists1)
     
     return assists_rate
 
 def goal_contributions(goals,assists,minutes):
 
-    goal_contribution_rate = goals + assists / minutes * 100
+    goal_con = ((goals + assists) / minutes) * 100
+
+    goal_contribution_rate = "{:.2f}".format(goal_con)
 
     return goal_contribution_rate
 
@@ -195,40 +199,45 @@ def index():
                 "player_assists":assist
             }
 
-            distance_ran_per_min_calc = distance_per_minute(distance,minutes)
             passing_accuracy_calc = passing_calculation(passes_att,passes_comp)
-            shot_accuracy_calc, shot_conversion_rate = shots_calculation(shots_att,shots_on)
+            shot_accuracy_calc, shot_conversion_rate = shots_calculation(shots_att,shots_on,goals)
             goal_rate_calc = goal_rate(goals,minutes)
             assist_rate_calc = assist_rate(assist,minutes)
             goal_contributions_calc = goal_contributions(goals,assist,minutes)
 
-
-
-
+            session["player_calculated_stats"] = {
+                
+                "passing_accuracy": float(passing_accuracy_calc),
+                "shot_accuracy": float(shot_accuracy_calc),
+                "shot_conversion": float(shot_conversion_rate),
+                "goal_rate": float(goal_rate_calc),
+                "assist_rate": float(assist_rate_calc),
+                "goal_contributions": float(goal_contributions_calc),
+            }
 
             return redirect('/result')
 
-        except:
+        except ValueError as ve:
+            error = str(ve)
+        except Exception as e:
+            error = "An unexpected error occurred: " + str(e)
 
-            pass
+            
 
     return render_template('index.html', error=error)
 
 @app.route('/result')
 def result():
 
-    data = session.get("player_entered_data")
+    player_inputted_data = session.get("player_entered_data")
+    player_calculated_data = session.get("player_calculated_stats")
 
-    print("Session data:", data)
 
-    if not data:
+    if not player_inputted_data or not player_calculated_data:
 
         return redirect('/')
 
-    return render_template('result.html',data=data)
-
-
-
+    return render_template('result.html',player_inputted_data=player_inputted_data,player_calculated_data=player_calculated_data)
 
 
 if __name__ == "__main__":
