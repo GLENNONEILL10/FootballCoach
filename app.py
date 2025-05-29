@@ -3,6 +3,48 @@ from flask import Flask,render_template,request,session,redirect
 app = Flask(__name__)
 app.secret_key = 'your-secret-key' 
 
+
+
+def distance_per_minute(distance,minutes):
+
+    distance_ran_per_min = distance / minutes * 100
+
+    return distance_ran_per_min
+
+def passing_calculation(passes_att,passes_comp):
+    
+    passing_accuracy = passes_att/passes_comp * 100
+
+    return passing_accuracy
+
+
+def shots_calculation(shots_att,shots_on,goals):
+
+    shot_accurracy = shots_att / shots_on * 100
+
+    shot_conversion = shot_accurracy / goals * 100
+
+    return shot_accurracy,shot_conversion
+
+def goal_rate(goals,minutes):
+
+    goals_scored_rate = goals/minutes * 100
+
+    return goals_scored_rate
+
+def assist_rate(assist,minutes):
+
+    assists_rate = assist/minutes * 100
+    
+    return assists_rate
+
+def goal_contributions(goals,assists,minutes):
+
+    goal_contribution_rate = goals + assists / minutes * 100
+
+    return goal_contribution_rate
+
+
 @app.route('/',methods =['GET','POST'])
 def index():
 
@@ -16,6 +58,7 @@ def index():
             unit = request.form["unit"]
             passes_complete = request.form["passesComplete"]
             passes_attempted = request.form["passesAttempted"]
+            shots_attempted = request.form["shotsAttempted"]
             shots_on_target = request.form["shotsOnTarget"]
             player_goals = request.form["goals"]
             player_assists = request.form["assists"]
@@ -90,6 +133,18 @@ def index():
 
                 error = "Passes complete cant be less than 0"
                 raise ValueError(error)
+            
+            if not shots_attempted or not shots_attempted.isdigit():
+
+                error = "Please enter only numeric value"
+                raise ValueError(error)
+            
+            shots_att = int(shots_attempted)
+
+            if shots_att < 0:
+
+                error = "Shots Attempted cant be less than 0"
+                raise ValueError(error)
 
             if not shots_on_target or not shots_on_target.isdigit():
 
@@ -134,12 +189,23 @@ def index():
                 "unit":unit,
                 "passes_attempted":passes_att,
                 "passes_complete":passes_comp,
+                "shots_attempted":shots_att,
                 "shots_on_target":shots_on,
                 "player_goals":goals,
                 "player_assists":assist
             }
 
-            
+            distance_ran_per_min_calc = distance_per_minute(distance,minutes)
+            passing_accuracy_calc = passing_calculation(passes_att,passes_comp)
+            shot_accuracy_calc, shot_conversion_rate = shots_calculation(shots_att,shots_on)
+            goal_rate_calc = goal_rate(goals,minutes)
+            assist_rate_calc = assist_rate(assist,minutes)
+            goal_contributions_calc = goal_contributions(goals,assist,minutes)
+
+
+
+
+
             return redirect('/result')
 
         except:
