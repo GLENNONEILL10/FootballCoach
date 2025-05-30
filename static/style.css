@@ -162,3 +162,34 @@ body, html {
     background-color: #0056b3;
 }
 
+.feedback-container {
+    position: fixed;       /* Fix it relative to viewport */
+    right: 470px;           /* 20px from right edge */
+    top: 62%;              /* Vertically center */
+    transform: translateY(-50%);  /* Adjust for exact vertical center */
+    width: 500px;          /* Fixed width */
+    padding: 20px;
+    background-color: #f9f9f9;  /* Light background */
+    border: 1px solid #ccc;     /* Gray border */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  .feedback-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    text-align: center;
+  }
+  
+  .feedback-container ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0;
+  }
+
+  .feedback-container ul li {
+    margin-bottom: 12px; /* Adds vertical spacing between lines */
+    line-height: 1.6;    /* Increases line height for better readability */
+  }

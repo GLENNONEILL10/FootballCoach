@@ -25,6 +25,7 @@
                 <th>Distance Travelled</th>
                 <th>Passes Attempted</th>
                 <th>Passes Complete</th>
+                <th>Shots Attempted</th>
                 <th>Shots On Target</th>
                 <th>Goals</th>
                 <th>Assists</th>
@@ -37,6 +38,7 @@
                 <td>{{ player_inputted_data.distance_ran }}  {{ player_inputted_data.unit }}</td>
                 <td>{{ player_inputted_data.passes_attempted }}</td>
                 <td>{{ player_inputted_data.passes_complete }}</td>
+                <td>{{ player_inputted_data.shots_attempted}}</td>
                 <td>{{ player_inputted_data.shots_on_target }}</td>
                 <td>{{ player_inputted_data.player_goals }}</td>
                 <td>{{ player_inputted_data.player_assists }}</td>
@@ -77,9 +79,9 @@
             </tr>
             <tr>
                 <td>Shot Conversion Rate</td>
-                <td class="{% if player_calculated_data.shot_conversion > 80 %}green-text
+                <td class="{% if player_calculated_data.shot_conversion > 25 %}green-text
 
-                            {% elif player_calculated_data.shot_conversion >= 50 %}orange-text
+                            {% elif player_calculated_data.shot_conversion >= 15 %}orange-text
 
                             {% else %}red-text{% endif %}">
 
@@ -99,6 +101,21 @@
                 <td>{{ player_calculated_data.goal_contributions }}</td>
             </tr>
         </table>
+    </div>
+
+
+    <div class = "feedback-container">
+
+        <h3>Feedback</h3>
+
+        <ul>
+            {% for feedback in feedback_list %}
+
+                <li>{{ feedback }}</li>
+
+            {% endfor %}
+        <ul>
+
     </div>
 
     <div class = "back-button">

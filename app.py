@@ -16,7 +16,7 @@ def shots_calculation(shots_att,shots_on,goals):
 
     shot1 = (shots_on / shots_att) * 100
 
-    shot2 = (goals / shot1) * 100
+    shot2 = (goals / shots_att) * 100
 
     shot_accurracy = "{:.2f}".format(shot1)
 
@@ -26,7 +26,7 @@ def shots_calculation(shots_att,shots_on,goals):
 
 def goal_rate(goals,minutes):
 
-    goals_scored = (goals/minutes) * 100
+    goals_scored = (goals/minutes) * minutes
 
     goals_scored_rate = "{:.2f}".format(goals_scored)
 
@@ -34,7 +34,7 @@ def goal_rate(goals,minutes):
 
 def assist_rate(assist,minutes):
 
-    assists1 = (assist/minutes) * 100
+    assists1 = (assist/minutes) * minutes
 
     assists_rate = "{:.2f}".format(assists1)
     
@@ -42,12 +42,124 @@ def assist_rate(assist,minutes):
 
 def goal_contributions(goals,assists,minutes):
 
-    goal_con = ((goals + assists) / minutes) * 100
+    goal_con = (goals + assists)
 
     goal_contribution_rate = "{:.2f}".format(goal_con)
 
     return goal_contribution_rate
 
+
+def generate_passing_feedback(passing_accuracy):
+
+    if passing_accuracy:
+        
+        if passing_accuracy > 85:
+
+            feedback = "Your passing is terrific , Keep it up"
+
+            return feedback
+        
+        elif passing_accuracy >=60 and passing_accuracy < 85:
+
+            feedback = "Your passing is decent but you need to improve"
+
+            return feedback
+        
+        else:
+
+            feedback = "Your passing isnt good you should take some time to improve passing accuracy and timing"
+
+            return feedback
+        
+def generate_shooting_feedback(shot_accuracy,shot_conversion,shots_att):
+
+    feedback = []
+
+    if shot_accuracy and shot_conversion:
+
+        if shot_accuracy > 85:
+
+            feedback.append("Your shooting on target well, you will score many goals")
+    
+        elif shot_accuracy >= 60 and shot_accuracy < 85:
+
+            feedback.append("You shooting is decent, continue woring on it and you will improve")
+
+        else:
+
+            feedback.append("You shooting isnt good, you will need to work on this if you want to convert into goals")
+
+    
+        if shot_conversion > 40 and shots_att >= 4:
+
+            feedback.append("You didnt do this, this is far above what even messi gets this")
+
+        
+        elif shot_conversion > 25 and shot_conversion < 40 :
+
+            feedback.append("This is pro standard keep it up")
+        
+        elif shot_conversion > 10 and shot_conversion < 25:
+
+            feedback.append("This is good shooting, keep improving and you will score many goals")
+    
+        else:
+
+            feedback.append("You werent clinicle enough in this match, yo need to work on your shot conversion")
+
+        return feedback
+        
+
+def generate_goal_contribution_feedback(goal_rate,assist_rate,goal_contributions):
+
+    feedback = []
+
+    if goal_rate and assist_rate and goal_contributions:
+
+        if goal_rate >= 2:
+
+            feedback.append("You scored very well today")
+
+        elif goal_rate == 1:
+
+            feedback.append("Nice you scored well done")
+
+        else:
+
+            feedback.append("Unlucky you didnt score this time")
+
+        if assist_rate >=2:
+
+            feedback.append("Well done your provided your teamates with lots of goals")
+
+        elif assist_rate == 1:
+
+            feedback.append("Nice Assist today")
+
+        else:
+
+            feedback.append("Unlucky you didnt provide assist")
+
+        if goal_contributions > 6:
+
+            feedback.append("Terrific performance today you were the best player on the pitch")
+        
+        elif goal_contributions < 6 and goal_contributions >= 3:
+
+            feedback.append("Very good performance keep it up")
+
+        elif goal_contributions < 3 and goal_contributions > 1:
+
+            feedback.append("Nice performance keep working to ensure its consistant")
+
+        else:
+
+            feedback.append("Unlucky you didnt contribute to any goals")        
+    else:
+
+        return "Error you didnt fill out the form properly"
+
+    return feedback
 
 @app.route('/',methods =['GET','POST'])
 def index():
@@ -206,7 +318,7 @@ def index():
             goal_contributions_calc = goal_contributions(goals,assist,minutes)
 
             session["player_calculated_stats"] = {
-                
+
                 "passing_accuracy": float(passing_accuracy_calc),
                 "shot_accuracy": float(shot_accuracy_calc),
                 "shot_conversion": float(shot_conversion_rate),
@@ -232,12 +344,40 @@ def result():
     player_inputted_data = session.get("player_entered_data")
     player_calculated_data = session.get("player_calculated_stats")
 
+    feedback_list = []
+
+    passing_feedback = generate_passing_feedback(player_calculated_data["passing_accuracy"])
+
+    shooting_feedback = generate_shooting_feedback(
+
+        player_calculated_data["shot_accuracy"],
+        player_calculated_data["shot_conversion"],
+        player_inputted_data["shots_attempted"]
+
+    )
+    goal_contribution_feedback = generate_goal_contribution_feedback(
+        
+        player_calculated_data["goal_rate"],
+        player_calculated_data["assist_rate"],
+        player_calculated_data["goal_contributions"]
+    )
+
+    for feedback in [passing_feedback, shooting_feedback, goal_contribution_feedback]:
+        
+        if isinstance(feedback, list):
+
+            feedback_list.extend(feedback)
+
+        elif feedback:
+            feedback_list.append(feedback)
+     
 
     if not player_inputted_data or not player_calculated_data:
 
         return redirect('/')
 
-    return render_template('result.html',player_inputted_data=player_inputted_data,player_calculated_data=player_calculated_data)
+    return render_template('result.html',player_inputted_data=player_inputted_data,player_calculated_data=player_calculated_data
+                                        ,feedback_list=feedback_list)
 
 
 if __name__ == "__main__":
