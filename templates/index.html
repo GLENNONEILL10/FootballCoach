@@ -10,7 +10,6 @@
 
 {% block body %}
 
-
     <div class = "mainHeader-container">
 
         <h1>Football Coach</h1>
@@ -24,8 +23,144 @@
 
     </div>
     {% endif%}
+    
+    
+    <div class = "position-selector-container">
 
-    <div class = "mainForm-container">
+        <label for ="position">Position</label>
+        <select name="position" id ="position" required onchange="showPositionFields(this.value)">
+
+            <option value="">Select Position</option>
+            <option value="striker">Striker</option>
+            <option value="winger">Winger</option>
+            <option value="midfielder">Midfielder</option>
+            <option value="defender">Defender</option>
+            <option value="goalkeeper">Goalkeeper</option>
+
+        </select>
+
+    </div>
+    
+
+    <div id = "striker-fields" class="position-fields" style ="display: none;">
+        <form action = "/" method = "POST">
+
+            <input type="hidden" name="formType" value="striker">
+
+            <label for ="timePlayed">Time Played</label>
+            <input type="number" id ="timePlayed" name="timePlayed" max="122" min="0" step="1" placeholder="Enter Minutes played Only" required>
+
+            <label for ="distanceRan">Distance Ran</label>
+            <input type ="number" id="distanceRan" name="distanceRan" min="0" step="1" placeholder="Enter Distance Travelled" required>
+            <label for ="unit">Unit</label>
+            <select id ="unit" name="unit" required>
+
+                <option value="m">M</option>
+                <option value="km">Km</option>
+
+            </select>
+
+            <label for ="goals">Goals</label>
+            <input type ="number" id="goals" name="goals" max="20" min="0" step="1" placeholder="Enter number of goals" required>
+
+            <label for ="assists">Assists</label>
+            <input type="number" id="assists" name="assists" max="20" min="0" step="1" placeholder="Enter number of assists" required>
+
+            <label for ="shotsAttempted">Shots Attempted</label>
+            <input type ="number" id = "shotsAttempted" name="shotsAttempted" max="20" min="0" step="1" placeholder="Enter number of shots Attempted" required>
+
+            <label for ="shotsOnTarget">Shots on Target</label>
+            <input type ="number" id = "shotsOnTarget" name="shotsOnTarget" max="20" min="0" step="1" placeholder="Enter number of shots on target" required>
+            
+            <label for="passesAttempted">Passes Attempted</label>
+            <input type="number" id="passesAttempted" name="passesAttempted" min="0" step="1" placeholder="Enter passes attempted" required>
+
+            <label for="passesComplete">Passes Completed</label>
+            <input type="number" id="passesComplete" name="passesComplete" min="0" step="1" placeholder="Enter passes completed" required>
+
+            <label for ="keyPasses">Key Passes</label>
+            <input type ="number" id = "keyPasses" name="keyPasses" max="10" min="0" step="1" placeholder="Enter key passes (pass that leads to attempt on goal)" required>
+
+            <label for ="dribblesAttempted">Dribbles Attempted</label>
+            <input type="number" id="dribblesAttempted" name="dribblesAttempted" max="20" min="0" step="1" placeholder="Enter Dribbles Attempted" required>
+
+            <label for ="dribblesCompleted">Dribbles Completed</label>
+            <input type ="number" id="dribblesCompleted" name="dribblesCompleted" max="20" min="0" step="1" placeholder="Enter Dribbles Completed" required>
+
+            <label for = "touchesInOppBox">Touches in Opponent Box</label>
+            <input type="number" id="touchesInOppBox" name="touchesInOppBox" max="35" min="0" step="1" placeholder="Enter Touches in Opponent Box" required>
+
+            <label for ="offsides">Offsides</label>
+            <input type="number" id="offsides" name="offsides" max="10" min="0" step="1" placeholder="Enter Offside count" required>
+
+            <label for ="foulsDrawn">Fouls Drawn</label>
+            <input type = "number" id="foulsDrawn" name="foulsDrawn" max="12" min="0" step="1" placeholder="Enter number of times you were fouled" required>
+
+            <input type="submit" value="enter">
+
+        </form>
+    </div>
+
+    
+    <div id = "winger-fields" class="position-fields" style="display: none;">
+        <form action = "/" method = "POST">
+
+            <input type="hidden" name="formType" value="winger">
+
+            <label for ="timePlayed">Time Played</label>
+            <input type="number" id ="timePlayed" name="timePlayed" max="122" min="0" step="1" placeholder="Enter Minutes played Only" required>
+
+            <label for ="distanceRan">Distance Ran</label>
+            <input type ="number" id="distanceRan" name="distanceRan" min="0" step="1" placeholder="Enter Distance Travelled" required>
+            <label for ="unit">Unit</label>
+            <select id ="unit" name="unit" required>
+
+                <option value="m">M</option>
+                <option value="km">Km</option>
+
+            </select>
+
+            <label for ="goals">Goals</label>
+            <input type ="number" id="goals" name="goals" max="20" min="0" step="1" placeholder="Enter number of goals" required>
+
+            <label for ="assists">Assists</label>
+            <input type="number" id="assists" name="assists" max="20" min="0" step="1" placeholder="Enter number of assists" required>
+
+            <label for ="shotsAttempted">Shots Attempted</label>
+            <input type ="number" id = "shotsAttempted" name="shotsAttempted" max="20" min="0" step="1" placeholder="Enter number of shots Attempted" required>
+
+            <label for ="shotsOnTarget">Shots on Target</label>
+            <input type ="number" id = "shotsOnTarget" name="shotsOnTarget" max="20" min="0" step="1" placeholder="Enter number of shots on target" required>
+
+            <label for ="dribblesAttempted">Dribbles Attempted</label>
+            <input type="number" id="dribblesAttempted" name="dribblesAttempted" max="20" min="0" step="1" placeholder="Enter Dribbles Attempted" required>
+
+            <label for ="dribblesCompleted">Dribbles Completed</label>
+            <input type ="number" id="dribblesCompleted" name="dribblesCompleted" max="20" min="0" step="1" placeholder="Enter Dribbles Completed" required>
+
+            <label for ="keyPasses">Key Passes</label>
+            <input type ="number" id = "keyPasses" name="keyPasses" max="10" min="0" step="1" placeholder="Enter key passes (pass that leads to attempt on goal)" required>
+            
+            <label for="passesAttempted">Passes Attempted</label>
+            <input type="number" id="passesAttempted" name="passesAttempted" min="0" step="1" placeholder="Enter passes attempted" required>
+
+            <label for="passesComplete">Passes Completed</label>
+            <input type="number" id="passesComplete" name="passesComplete" min="0" step="1" placeholder="Enter passes completed" required>
+
+
+            <label for ="crossesAttempted">Crosses Attempted</label>
+            <input type="number" id="crossesAttempted" name = "crossesAttempted" max="32" min="0" step="1" placeholder="Enter Crosses Attempted" required>
+
+            <label for ="crossesCompleted">Crosses Complete</label>
+            <input type="number" id="crossesCompleted" name="crossesCompleted" max = "13" min="0" step = "1" placeholder="Enter Crosses Completed" required>
+
+            <input type="submit" value="enter">
+
+        </form>
+    </div>
+
+<!--
+    <div id = "midfielder-fields" class="position-fields" style="display: none;">
         <form action = "/" method = "POST">
 
             <label for ="timePlayed">Time Played</label>
@@ -41,28 +176,147 @@
 
             </select>
 
-            <label for ="passesAttempted">Passes Attempted</label>
-            <input type ="number" id = "passesAttempted" name="passesAttempted" max="461" min="0"step="1" placeholder="Enter number of passes attempted" required>
-
-            <label for ="passesComplete">Passes Complete</label>
-            <input type ="number" id = "passesComplete" name="passesComplete" max="461 "min="0"step="1" placeholder="Enter number of passes Complete">
-
-            <label for ="shotsAttempted">Shots Attempted</label>
-            <input type ="number" id = "shotsAttempted" name="shotsAttempted" max="20" min="0" step="1" placeholder="Enter number of shots Attempted" required>
-
-            <label for ="shotsOnTarget">Shots on Target</label>
-            <input type ="number" id = "shotsOnTarget" name="shotsOnTarget" max="20" min="0" step="1" placeholder="Enter number of shots on target" required>
-
             <label for ="goals">Goals</label>
             <input type ="number" id="goals" name="goals" max="20" min="0" step="1" placeholder="Enter number of goals" required>
 
             <label for ="assists">Assists</label>
             <input type="number" id="assists" name="assists" max="20" min="0" step="1" placeholder="Enter number of assists" required>
 
+            <label for="passesAttempted">Passes Attempted</label>
+            <input type="number" id="passesAttempted" name="passesAttempted" max="160" min="0" step="1" placeholder="Enter Passes Attempted" required>
+
+            <label for="passesComplete">Passes Complete</label>
+            <input type="number" id="passesComplete" name="passesComplete" max="150" min="0" step="1" placeholder="Enter Passes Complete" required>
+
+            <label for ="keyPasses">Key Passes</label>
+            <input type ="number" id = "keyPasses" name="keyPasses" max="10" min="0" step="1" placeholder="Enter key passes (pass that leads to attempt on goal)" required>
+
+            <label for ="dribblesAttempted">Dribbles Attempted</label>
+            <input type="number" id="dribblesAttempted" name="dribblesAttempted" max="20" min="0" step="1" placeholder="Enter Dribbles Attempted" required>
+
+            <label for ="dribblesCompleted">Dribbles Completed</label>
+            <input type ="number" id="dribblesCompleted" name="dribblesCompleted" max="20" min="0" step="1" placeholder="Enter Dribbles Completed" required>
+            
+            <label for ="tacklesAttempted">Tackles Attempted</label>
+            <input type="number" id="tacklesAttempted" name="tacklesAttempted" max="20" min="0" step="1" placeholder="Enter Tackles Attempted" required>
+
+            <label for="tacklesCompleted">Tackles Completed</label>
+            <input type="number" id="tacklesCompleted" name="tacklesCompleted" max="15" min="0" step="1" placeholder="Enter Tackles Complete" required>
+
+            <label for ="interceptions">interceptions</label>
+            <input type="number" id="interceptions" name="interceptions" max="11" min="0" step="1" placeholder="Enter interception count" required>
+
             <input type="submit" value="enter">
 
         </form>
     </div>
 
+    <div id = "defender-fields" class="position-fields" style="display: none;">
+        <form action = "/" method = "POST">
+
+            <label for ="timePlayed">Time Played</label>
+            <input type="number" id ="timePlayed" name="timePlayed" max="122" min="0" step="1" placeholder="Enter Minutes played Only" required>
+
+            <label for ="distanceRan">Distance Ran</label>
+            <input type ="number" id="distanceRan" name="distanceRan" min="0" step="1" placeholder="Enter Distance Travelled" required>
+            <label for ="unit">Unit</label>
+            <select id ="unit" name="unit" required>
+
+                <option value="m">M</option>
+                <option value="km">Km</option>
+
+            </select>
+
+            <label for ="tacklesAttempted">Tackles Attempted</label>
+            <input type="number" id="tacklesAttempted" name="tacklesAttempted" max="20" min="0" step="1" placeholder="Enter Tackles Attempted" required>
+
+            <label for="tacklesCompleted">Tackles Completed</label>
+            <input type="number" id="tacklesCompleted" name="tacklesCompleted" max="15" min="0" step="1" placeholder="Enter Tackles Complete" required>
+
+            <label for ="interceptions">interceptions</label>
+            <input type="number" id="interceptions" name="interceptions" max="11" min="0" step="1" placeholder="Enter interception count" required>
+
+            <label for ="clearance">Clearance</label>
+            <input type="number" id="clearance" name="clearance" max="21" min="0" step="1" placeholder="Enter Clearances" required>
+
+            <label for ="blocks">Blocks</label>
+            <input type="number" id="blocks" name="blocks" max="10" min="0" step="1" placeholder="Enter Blocks" required>
+
+            <label for ="aerialDuelsAttempted">Aerial Duels Attempted</label>
+            <input type="number" id="aerialDuelsAttempted" name="aerialDuelsAttempted" max="30" min="0" step="1" placeholder="Enter Aerial Duels Attempted" required>
+
+            <label for ="aerialDuelsCompleted">Aerial Duels Completed</label>
+            <input type="number" id="aerialDuelsCompleted" name="aerialDuelsCompleted" max="20" min="0" step="1" placeholder="Enter Aerial Duels Completed" required>
+
+            <label for ="foulsCommitted">Fouls Committed</label>
+            <input type="number" id="foulsCommitted" name="foulsCommitted" max="11" min="0" step="1" placeholder="Enter Fouls Committed" required>
+
+            <label for="passesAttempted">Passes Attempted</label>
+            <input type="number" id="passesAttempted" name="passesAttempted" max="160" min="0" step="1" placeholder="Enter Passes Attempted" required>
+
+            <label for="passesComplete">Passes Complete</label>
+            <input type="number" id="passesComplete" name="passesComplete" max="150" min="0" step="1" placeholder="Enter Passes Complete" required>
+
+            <label for ="goals">Goals</label>
+            <input type ="number" id="goals" name="goals" max="20" min="0" step="1" placeholder="Enter number of goals" required>
+
+            <input type="submit" value="enter">
+
+        </form>
+    </div>
+
+    <div id = "goalkeeper-fields" class="position-fields" style="display: none;">
+        <form action = "/" method = "POST">
+
+            <label for ="timePlayed">Time Played</label>
+            <input type="number" id ="timePlayed" name="timePlayed" max="122" min="0" step="1" placeholder="Enter Minutes played Only" required>
+
+            <label for ="shotsFaced">Shots Faced</label>
+            <input type="number" id="shotsFaced" name="shotsFaced" max="50" min="0" step="1" placeholder="Enter Shots Faced" required>
+
+            <label for ="savesMade">Saves Made</label>
+            <input type="number" id="savesMade" name="savesMade" max="25" min="0" step="1" placeholder="Enter Saves Made" requried>
+
+            <label for ="goalsConceded">Goals Conceded</label>
+            <input type="number" id="goalsConceded" name="goalsConceded" max="20" min="0" step="1" placeholder="Enter Goals Conceded" required>
+
+            <label for ="errorLeadingToShot">Error Leading To Shot</label>
+            <input type="number" id="errorLeadingToShot" name="errorLeadingToShot" max="10" min="0" step="1" placeholder="Enter Errors Leading to Shots" required>
+
+            <label for ="errorLeadingToGoal">Errors Leading to Goals</label>
+            <input type ="number" id="errorLeadingToGoal" name="errorLeadingToGoal" max="10" min="0" step="1" placeholder="Enter Errors Leading to Goals" required>
+
+            <label for="passesAttempted">Passes Attempted</label>
+            <input type="number" id="passesAttempted" name="passesAttempted" max="160" min="0" step="1" placeholder="Enter Passes Attempted" required>
+
+            <label for="passesComplete">Passes Complete</label>
+            <input type="number" id="passesComplete" name="passesComplete" max="150" min="0" step="1" placeholder="Enter Passes Complete" required>
+
+            <input type="submit" value="enter">
+
+        </form>
+    </div>   -->
+
+
+    <script>
+
+        function showPositionFields(position){
+    
+            document.querySelectorAll('.position-fields').forEach(el => el.style.display = 'none');
+    
+            if(position){
+    
+                const selectedForm = document.getElementById(position + '-fields');
+    
+                if(selectedForm){
+    
+                    selectedForm.style.display = 'block';
+    
+                }
+            }
+        }
+    
+    </script>
 
 {% endblock %}
+

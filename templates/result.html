@@ -15,12 +15,13 @@
 
     </div>
 
-    <div class ="EnteredTable-container">
+    <div class ="strikerTable-container">
         
         <table>
             
             <tr>
 
+                {% if position == "striker" %}
                 <th>Time Played</th>
                 <th>Distance Travelled</th>
                 <th>Passes Attempted</th>
@@ -29,11 +30,36 @@
                 <th>Shots On Target</th>
                 <th>Goals</th>
                 <th>Assists</th>
+                <th>Key Passes</th>
+                <th>Dribbles Attempted</th>
+                <th>Dribbles Completed</th>
+                <th>Touches in Oponent Box</th>
+                <th>Offsides</th>
+                <th>Fouls Drawn</th>
+
+                {% elif position == "winger" %}
+                <th>Time Played</th>
+                <th>Distance Travelled</th>
+                <th>Passes Attempted</th>
+                <th>Passes Complete</th>
+                <th>Shots Attempted</th>
+                <th>Shots On Target</th>
+                <th>Goals</th>
+                <th>Assists</th>
+                <th>Key Passes</th>
+                <th>Dribbles Attempted</th>
+                <th>Dribbles Completed</th>
+                <th>Crosses Attempted</th>
+                <th>Crosses Completed</th>
+                {% endif %}
+
 
             </tr>
 
             <tr>
 
+                
+                {% if position == "striker" %}
                 <td>{{ player_inputted_data.time_played }}</td>
                 <td>{{ player_inputted_data.distance_ran }}  {{ player_inputted_data.unit }}</td>
                 <td>{{ player_inputted_data.passes_attempted }}</td>
@@ -42,12 +68,36 @@
                 <td>{{ player_inputted_data.shots_on_target }}</td>
                 <td>{{ player_inputted_data.player_goals }}</td>
                 <td>{{ player_inputted_data.player_assists }}</td>
+                <td>{{ player_inputted_data.key_passes}}</td>
+                <td>{{ player_inputted_data.dribbles_attempted}}</td>
+                <td>{{ player_inputted_data.dribbles_completed}}</td>
+                <td>{{ player_inputted_data.touches_in_opp_box}}</td>
+                <td>{{ player_inputted_data.offsides}}</td>
+                <td>{{ player_inputted_data.fouls_drawn}}</td>
 
+                {% elif position == "winger" %}
+                <td>{{ player_inputted_data.time_played }}</td>
+                <td>{{ player_inputted_data.distance_ran }}  {{ player_inputted_data.unit }}</td>
+                <td>{{ player_inputted_data.passes_attempted }}</td>
+                <td>{{ player_inputted_data.passes_complete }}</td>
+                <td>{{ player_inputted_data.shots_attempted}}</td>
+                <td>{{ player_inputted_data.shots_on_target }}</td>
+                <td>{{ player_inputted_data.player_goals }}</td>
+                <td>{{ player_inputted_data.player_assists }}</td>
+                <td>{{ player_inputted_data.key_passes}}</td>
+                <td>{{ player_inputted_data.dribbles_attempted}}</td>
+                <td>{{ player_inputted_data.dribbles_completed}}</td>
+                <td>{{ player_inputted_data.crosses_attempted}}</td>
+                <td>{{ player_inputted_data.crosses_completed}}</td>
+                {% endif %}
+
+            
             </tr>
 
 
         </table>
     </div>
+
 
     <div class="calculatedStats-container">
         <table class="vertical-stats-table">
@@ -85,7 +135,7 @@
 
                             {% else %}red-text{% endif %}">
 
-                    {{ player_calculated_data.shot_conversion }}
+                    {{ player_calculated_data.shot_conversion }} %
                 </td>
             </tr>
             <tr>
