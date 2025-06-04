@@ -838,7 +838,344 @@ def index():
 
                 }
 
+            elif form_type == "defender":
 
+                time_played = request.form["timePlayed"]
+                distance_ran = request.form["distanceRan"]
+                unit = request.form["unit"]
+                passes_complete = request.form["passesComplete"]
+                passes_attempted = request.form["passesAttempted"]
+                player_goals = request.form["goals"]
+                tackles_attempted = request.form["tacklesAttempted"]
+                tackles_completed = request.form["tacklesCompleted"]
+                interceptions = request.form["interceptions"]
+                clearance = request.form["clearance"]
+                blocks = request.form["blocks"]
+                aerial_duels_attempted = request.form["aerialDuelsAttempted"]
+                aerial_duels_completed = request.form["aerialDuelsCompleted"]
+                fouls_committed = request.form["foulsCommitted"]
+                
+
+
+                if not time_played or not time_played.isdigit():
+
+                    error= "Please enter only Numeric Value"
+                    raise ValueError(error)
+            
+                minutes = int(time_played)
+
+                if minutes < 0:
+
+                    error= "Cant be less than 0 Minutes"
+                    raise ValueError(error)
+
+                if not distance_ran:
+
+                    error= "Please enter only numeric value"
+                    raise ValueError(error)
+
+                try:
+
+                    distance = float(distance_ran)
+
+                except ValueError:
+
+                    error = "Please enter a valid numeric value for Distance Ran"
+                    raise ValueError(error)
+
+                if not unit:
+
+                    error="Please select unit"
+                    raise ValueError(error)
+                
+                if unit == "km":
+
+                    if distance > 17:
+                        error = "You didnt run more than the 17k "
+
+                    #used for later
+                    distance_metres = distance * 1000
+
+                elif unit == "m":
+
+                    if distance > 17000:
+
+                        error = "You didnt run more than the 17000m "
+
+
+
+                if not passes_attempted or not passes_attempted.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+
+                passes_att = int(passes_attempted)
+
+                if passes_att < 0:
+
+                    error = "Passes attempted cant be less than 0"
+                    raise ValueError(error)
+
+                if not passes_complete or not passes_complete.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+
+                passes_comp = int(passes_complete)
+
+                if passes_comp < 0:
+
+                    error = "Passes complete cant be less than 0"
+                    raise ValueError(error)
+                
+                if not player_goals or not player_goals.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+
+                goals = int(player_goals)
+
+                if goals < 0 :
+
+                    error = "Goals cant be less than 0"
+                    raise ValueError(error)
+
+                if not tackles_attempted or not tackles_attempted.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+                
+                tackles_att = int(tackles_attempted)
+
+                if tackles_att < 0 :
+
+                    error = "Tackles attempted cant be less than 0"
+                    raise ValueError(error)
+                
+                if not tackles_completed or not tackles_completed.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+                
+                tackles_comp = int(tackles_completed)
+
+
+                if tackles_comp < 0:
+
+                    error = "Tackles Completed cant be less than 0"
+                    raise ValueError(error)
+                
+                if not interceptions or not interceptions.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+                
+                intercept = int(interceptions)
+
+                if intercept < 0:
+
+                    error = "Interceptions cant be less than 0"
+                    raise ValueError(error)
+                
+                if not clearance or not clearance.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+                
+                clear = int(clearance)
+
+                if clear < 0:
+
+                    error = "Clearances cant be less than 0"
+                    raise ValueError(error)
+                
+                if not blocks or not blocks.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+                
+                bloc = int(blocks)
+
+                if bloc < 0:
+
+                    error = "Blocks cant be less than 0"
+                    raise ValueError(error)
+                
+                if not aerial_duels_attempted or not aerial_duels_attempted.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+                
+                aerial_duels_att = int(aerial_duels_attempted)
+
+                if aerial_duels_att < 0:
+
+                    error = "Aerial Duels cant be less than 0"
+                    raise ValueError(error)
+                
+                if not aerial_duels_completed or not aerial_duels_completed.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+                
+                aerial_duels_comp = int(aerial_duels_completed)
+
+                if aerial_duels_comp < 0:
+
+                    error = "Aerials Duels Completed cant be less than 0"
+                    raise ValueError(error)
+                
+                if not fouls_committed or not fouls_committed.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+                
+                fouls_c = int(fouls_committed)
+
+                if fouls_c < 0:
+
+                    error = "Fouls Committed cant be less than 0"
+                    raise ValueError(error)
+                
+                session["defender_data"]={
+                    
+                    "time_played":minutes,
+                    "distance_ran":distance,
+                    "unit":unit,
+                    "passes_attempted":passes_att,
+                    "passes_complete":passes_comp,
+                    "player_goals":goals,
+                    "tackles_attempted":tackles_att,
+                    "tackles_completed":tackles_comp,
+                    "interceptions":intercept,
+                    "clearance":clear,
+                    "blocks":bloc,
+                    "aerial_duels_attempted":aerial_duels_att,
+                    "aerial_duels_completed":aerial_duels_comp,
+                    "fouls_committed":fouls_c
+
+                }
+            
+            elif form_type == "goalkeeper":
+
+                time_played = request.form["timePlayed"]
+                shots_faced = request.form["shotsFaced"]
+                saves_made = request.form["savesMade"]
+                goals_conceded = request.form["goalsConceded"]
+                error_leading_to_shot = request.form["errorLeadingToShot"]
+                error_leading_to_goal = request.form["errorLeadingToGoal"]
+                passes_attempted = request.form["passesAttempted"]
+                passes_complete = request.form["passesComplete"]
+                
+
+                if not time_played or not time_played.isdigit():
+
+                    error= "Please enter only Numeric Value"
+                    raise ValueError(error)
+            
+                minutes = int(time_played)
+
+                if minutes < 0:
+
+                    error= "Cant be less than 0 Minutes"
+                    raise ValueError(error)
+                
+                if not passes_attempted or not passes_attempted.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+
+                passes_att = int(passes_attempted)
+
+                if passes_att < 0:
+
+                    error = "Passes attempted cant be less than 0"
+                    raise ValueError(error)
+
+                if not passes_complete or not passes_complete.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+
+                passes_comp = int(passes_complete)
+
+                if passes_comp < 0:
+
+                    error = "Passes complete cant be less than 0"
+                    raise ValueError(error)
+                
+                if not shots_faced or not shots_faced.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+                
+                shots_f = int(shots_faced)
+
+                if shots_f < 0:
+
+                    error = "Shots faced cant be less than 0"
+                    raise ValueError(error)
+                
+                if not saves_made or not saves_made.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+                
+                saves_m = int(saves_made)
+
+                if saves_m < 0:
+
+                    error = "Saves made cant be less than 0"
+                    raise ValueError(error)
+                
+                if not goals_conceded or not goals_conceded.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+                
+                goals_c = int(goals_conceded)
+
+                if goals_c < 0:
+
+                    error = "Goals Conceded cant be less than 0"
+                    raise ValueError(error)
+                
+                if not error_leading_to_shot or not error_leading_to_shot.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+                
+                error_leading_shot = int(error_leading_to_shot)
+
+                if error_leading_shot < 0:
+
+                    error = "Errors leading to shots cant be less than 0"
+                    raise ValueError(error)
+                
+                if not error_leading_to_goal or not error_leading_to_goal.isdigit():
+
+                    error = "Please enter only numeric value"
+                    raise ValueError(error)
+                
+                error_leading_goal = int(error_leading_to_goal)
+
+                if error_leading_goal < 0:
+
+                    error = "Error leading to goal cant be less than 0"
+                    raise ValueError(error)
+                
+                session["goalkeeper_data"]={
+
+                    "time_played":minutes,
+                    "passes_attempted":passes_att,
+                    "passes_complete":passes_comp,
+                    "shots_faced":shots_f,
+                    "saves_made":saves_m,
+                    "goals_conceded":goals_c,
+                    "error_leading_to_shot":error_leading_shot,
+                    "error_leading_to_goal":error_leading_goal
+
+                }
                 
             else:
 
@@ -875,6 +1212,14 @@ def result():
     elif form_type == "midfielder":
 
         player_inputted_data = session.get("midfielder_data")
+
+    elif form_type == "defender":
+
+        player_inputted_data = session.get("defender_data")
+
+    elif form_type == "goalkeeper":
+
+        player_inputted_data = session.get("goalkeeper_data")
 
     else:
         return redirect("/")

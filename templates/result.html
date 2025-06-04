@@ -66,6 +66,31 @@
                 <th>Tackles Completed</th>
                 <th>Interceptions</th>
 
+                {% elif position == "defender" %}
+                <th>Time Played</th>
+                <th>Distance Travelled</th>
+                <th>Passes Attempted</th>
+                <th>Passes Complete</th>
+                <th>Goals</th>
+                <th>Tackles Attempted</th>
+                <th>Tackles Completed</th>
+                <th>Interceptions</th>
+                <th>Clearance</th>
+                <th>Blocks</th>
+                <th>Aerial Duels Attempted</th>
+                <th>Aerial Duels Completed</th>
+                <th>Fouls Committed</th>
+
+                {% elif position == "goalkeeper" %}
+                <th>Time Played</th>
+                <th>Shots Faced</th>
+                <th>Saved Made</th>
+                <th>Goals Conceded</th>
+                <th>Error Leading to Shot</th>
+                <th>Error Leading to Goal</th>
+                <th>Passes Attempted</th>
+                <th>Passes Complete</th>
+        
                 {% endif %}
 
 
@@ -119,6 +144,30 @@
                 <td>{{ player_inputted_data.tackles_completed }}</td>
                 <td>{{ player_inputted_data.interceptions}}</td>
 
+                {% elif position == "defender" %}
+                <td>{{ player_inputted_data.time_played }}</td>
+                <td>{{ player_inputted_data.distance_ran }}  {{ player_inputted_data.unit }}</td>
+                <td>{{ player_inputted_data.passes_attempted }}</td>
+                <td>{{ player_inputted_data.passes_complete }}</td>
+                <td>{{ player_inputted_data.player_goals }}</td>
+                <td>{{ player_inputted_data.tackles_attempted }}</td>
+                <td>{{ player_inputted_data.tackles_completed }}</td>
+                <td>{{ player_inputted_data.interceptions}}</td>
+                <td>{{ player_inputted_data.clearance}}</td>
+                <td>{{ player_inputted_data.blocks}}</td>
+                <td>{{ player_inputted_data.aerial_duels_attempted}}</td>
+                <td>{{ player_inputted_data.aerial_duels_completed}}</td>
+                <td>{{ player_inputted_data.fouls_committed}}</td>
+
+                {% elif position == "goalkeeper" %}
+                <td>{{ player_inputted_data.time_played }}</td>
+                <td>{{ player_inputted_data.passes_attempted }}</td>
+                <td>{{ player_inputted_data.passes_complete }}</td>
+                <td>{{ player_inputted_data.shots_faced }}</td>
+                <td>{{ player_inputted_data.saves_made}}</td>
+                <td>{{ player_inputted_data.goals_conceded}}</td>
+                <td>{{ player_inputted_data.error_leading_to_shot}}</td>
+                <td>{{ player_inputted_data.error_leading_to_goal}}</td>
 
                 {% endif %}
 
@@ -174,16 +223,30 @@
                 </td>
             </tr>
             <tr>
+                {% if position not in["goalkeeper"] %}
+
                 <td>Goal Rate</td>
                 <td>{{ player_calculated_data.goal_rate }}</td>
             </tr>
+            {% endif %}
             <tr>
+                
+
+                {% if position not in["goalkeeper","defender"] %}
+
                 <td>Assist Rate</td>
                 <td>{{ player_calculated_data.assist_rate }}</td>
             </tr>
+            {% endif %}
             <tr>
+               
+
+                {% if position not in["goalkeeper","defender"] %}
                 <td>Goal Contribution</td>
                 <td>{{ player_calculated_data.goal_contributions }}</td>
+
+
+                {% endif %}
             </tr>
         </table>
     </div>

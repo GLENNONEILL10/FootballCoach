@@ -212,9 +212,10 @@
         </form>
     </div>
 
-<!--
     <div id = "defender-fields" class="position-fields" style="display: none;">
         <form action = "/" method = "POST">
+
+            <input type="hidden" name="formType" value="defender">
 
             <label for ="timePlayed">Time Played</label>
             <input type="number" id ="timePlayed" name="timePlayed" max="122" min="0" step="1" placeholder="Enter Minutes played Only" required>
@@ -267,8 +268,11 @@
         </form>
     </div>
 
+
     <div id = "goalkeeper-fields" class="position-fields" style="display: none;">
         <form action = "/" method = "POST">
+
+            <input type="hidden" name="formType" value="goalkeeper">
 
             <label for ="timePlayed">Time Played</label>
             <input type="number" id ="timePlayed" name="timePlayed" max="122" min="0" step="1" placeholder="Enter Minutes played Only" required>
@@ -277,7 +281,7 @@
             <input type="number" id="shotsFaced" name="shotsFaced" max="50" min="0" step="1" placeholder="Enter Shots Faced" required>
 
             <label for ="savesMade">Saves Made</label>
-            <input type="number" id="savesMade" name="savesMade" max="25" min="0" step="1" placeholder="Enter Saves Made" requried>
+            <input type="number" id="savesMade" name="savesMade" max="25" min="0" step="1" placeholder="Enter Saves Made" required>
 
             <label for ="goalsConceded">Goals Conceded</label>
             <input type="number" id="goalsConceded" name="goalsConceded" max="20" min="0" step="1" placeholder="Enter Goals Conceded" required>
@@ -297,7 +301,7 @@
             <input type="submit" value="enter">
 
         </form>
-    </div>   -->
+    </div>  
 
 
     <script>
