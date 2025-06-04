@@ -147,7 +147,6 @@
             <label for="passesComplete">Passes Completed</label>
             <input type="number" id="passesComplete" name="passesComplete" min="0" step="1" placeholder="Enter passes completed" required>
 
-
             <label for ="crossesAttempted">Crosses Attempted</label>
             <input type="number" id="crossesAttempted" name = "crossesAttempted" max="32" min="0" step="1" placeholder="Enter Crosses Attempted" required>
 
@@ -159,9 +158,11 @@
         </form>
     </div>
 
-<!--
+
     <div id = "midfielder-fields" class="position-fields" style="display: none;">
         <form action = "/" method = "POST">
+            
+            <input type="hidden" name="formType" value="midfielder">
 
             <label for ="timePlayed">Time Played</label>
             <input type="number" id ="timePlayed" name="timePlayed" max="122" min="0" step="1" placeholder="Enter Minutes played Only" required>
@@ -211,6 +212,7 @@
         </form>
     </div>
 
+<!--
     <div id = "defender-fields" class="position-fields" style="display: none;">
         <form action = "/" method = "POST">
 

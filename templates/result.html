@@ -51,6 +51,21 @@
                 <th>Dribbles Completed</th>
                 <th>Crosses Attempted</th>
                 <th>Crosses Completed</th>
+                
+                {% elif position == "midfielder" %}
+                <th>Time Played</th>
+                <th>Distance Travelled</th>
+                <th>Passes Attempted</th>
+                <th>Passes Complete</th>
+                <th>Goals</th>
+                <th>Assists</th>
+                <th>Key Passes</th>
+                <th>Dribbles Attempted</th>
+                <th>Dribbles Completed</th>
+                <th>Tackles Attempted</th>
+                <th>Tackles Completed</th>
+                <th>Interceptions</th>
+
                 {% endif %}
 
 
@@ -89,6 +104,22 @@
                 <td>{{ player_inputted_data.dribbles_completed}}</td>
                 <td>{{ player_inputted_data.crosses_attempted}}</td>
                 <td>{{ player_inputted_data.crosses_completed}}</td>
+
+                {% elif position == "midfielder" %}
+                <td>{{ player_inputted_data.time_played }}</td>
+                <td>{{ player_inputted_data.distance_ran }}  {{ player_inputted_data.unit }}</td>
+                <td>{{ player_inputted_data.passes_attempted }}</td>
+                <td>{{ player_inputted_data.passes_complete }}</td>
+                <td>{{ player_inputted_data.player_goals }}</td>
+                <td>{{ player_inputted_data.player_assists }}</td>
+                <td>{{ player_inputted_data.key_passes }}</td>
+                <td>{{ player_inputted_data.dribbles_attempted }}</td>
+                <td>{{ player_inputted_data.dribbles_completed }}</td>
+                <td>{{ player_inputted_data.tackles_attempted }}</td>
+                <td>{{ player_inputted_data.tackles_completed }}</td>
+                <td>{{ player_inputted_data.interceptions}}</td>
+
+
                 {% endif %}
 
             
@@ -117,6 +148,8 @@
                 </td>
             </tr>
             <tr>
+                {% if position not in ["midfielder","defender","goalkeeper"] %}
+
                 <td>Shot Accuracy</td>
                 <td class="{% if player_calculated_data.shot_accuracy > 80 %}green-text
 
@@ -136,6 +169,8 @@
                             {% else %}red-text{% endif %}">
 
                     {{ player_calculated_data.shot_conversion }} %
+
+                {% endif %}
                 </td>
             </tr>
             <tr>
