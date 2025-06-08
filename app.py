@@ -48,6 +48,47 @@ def goal_contributions(goals,assists,minutes):
 
     return goal_contribution_rate
 
+def dribbles_success_rate_calc(dribbles_att,dribbles_comp):
+
+    dribbles_success_rate = (dribbles_comp / dribbles_att ) * 100
+
+    dribbles_success_rate = "{:.2f}".format(dribbles_success_rate)
+
+    return dribbles_success_rate
+
+def key_passes_percentage(key_p,passes_att):
+
+    key_passes_per = (key_p / passes_att) * 100
+
+    key_passes_per = "{:.2f}".format(key_passes_per)
+
+    return key_passes_per
+
+def touches_in_opp_box_per_90_calc(touches_in_box,minutes):
+
+    touches_in_opp_box_per_90 = (touches_in_box / minutes) * 90
+
+    touches_in_opp_box_per_90 = "{:.2f}".format(touches_in_opp_box_per_90)
+
+    return touches_in_opp_box_per_90
+
+def offsides_per_90_calc(offs,minute):
+
+    offsides_per_90 = (offs / minute) * 90
+
+    offsides_per_90 = "{:.2f}".format(offsides_per_90)
+
+    return offsides_per_90
+
+def fouls_drawn_per_90_calc(fouls_d,minute):
+
+    fouls_drawn_per_90 = (fouls_d / minute) * 90
+
+    fouls_drawn_per_90 =  "{:.2f}".format(fouls_drawn_per_90)
+
+    return fouls_drawn_per_90
+
+    
 
 def generate_passing_feedback(passing_accuracy):
 
@@ -412,7 +453,36 @@ def index():
                 "touches_in_opp_box":touches_in_box,
                 "offsides":offs,
                 "fouls_drawn":fouls_d
-            }
+                }
+
+                passing_accuracy = passing_calculation(passes_att,passes_comp)
+                shooting_accuracy,shot_conversion_rate = shots_calculation(shots_att,shots_on,goals)
+                goal_rate_calc = goal_rate(goals,minutes)
+                assist_rate_calc = assist_rate(assist,minutes)
+                goal_contributions_calc = goal_contributions(goals,assist,minutes)
+                dribbles_success_rate = dribbles_success_rate_calc(dribbles_att,dribbles_comp)
+                key_passes_per = key_passes_percentage(key_p,passes_att)
+                touches_in_opp_box_per_90 = touches_in_opp_box_per_90_calc(touches_in_box,minutes)
+                offsides_per_90 = offsides_per_90_calc(offs,minutes)
+                fouls_drawn_per_90 = fouls_drawn_per_90_calc(fouls_d,minutes)
+
+                session["striker_calculated_stats"] ={
+
+                    "passing_accuracy":float(passing_accuracy),
+                    "shot_accuracy":float(shooting_accuracy),
+                    "shot_conversion":float(shot_conversion_rate),
+                    "goal_rate":float(goal_rate_calc),
+                    "assist_rate":float(assist_rate_calc),
+                    "goal_contributions":float(goal_contributions_calc),
+                    "dribbles_success_rate":float(dribbles_success_rate),
+                    "key_passes_rate":float(key_passes_per),
+                    "touches_in_box_rate":float(touches_in_opp_box_per_90),
+                    "offsides_rate":float(offsides_per_90),
+                    "fouls_drawn_rate":float(fouls_drawn_per_90)
+
+                }
+
+            
 
             elif form_type == "winger":
                 print("DEBUG FORM DATA:", request.form)
@@ -631,6 +701,19 @@ def index():
                     "crosses_completed":crosses_comp
 
             	 }
+                
+                session["winger_calculated_stats"]={
+
+                    "passing_accuracy":float(passing_accuracy),
+                    "shot_accuracy":float(shooting_accuracy),
+                    "shot_conversion":float(shot_conversion_rate),
+                    "goal_rate":float(goal_rate_calc),
+                    "assist_rate":float(assist_rate_calc),
+                    "goal_contributions":float(goal_contributions_calc)
+
+
+
+                }
                 
             elif form_type == "midfielder":
 
@@ -1198,12 +1281,12 @@ def index():
 @app.route('/result')
 def result():
 
-    player_calculated_data = session.get("player_calculated_stats")
     form_type = session.get("position")
 
     if form_type == "striker":
 
         player_inputted_data = session.get("striker_data")
+        striker_calculated_data = session.get("striker_calculated_stats")
         
     elif form_type == "winger":
 
@@ -1239,11 +1322,11 @@ def result():
     '''
      
 
-    if not player_inputted_data or not player_calculated_data:
+    if not player_inputted_data or not striker_calculated_data:
 
         return redirect('/')
 
-    return render_template('result.html',player_inputted_data=player_inputted_data,player_calculated_data=player_calculated_data
+    return render_template('result.html',player_inputted_data=player_inputted_data,striker_calculated_data=striker_calculated_data
                                         ,feedback_list=feedback_list,position=form_type)
 
 
