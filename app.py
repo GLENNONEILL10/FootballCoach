@@ -96,6 +96,22 @@ def crossing_accuracy_calc(crosses_att,crosses_comp):
 
     return crossing_accuracy
 
+
+def tackling_accuracy_calc(tackles_att,tackles_comp):
+
+    tackling_accuracy = (tackles_comp / tackles_att ) * 100
+
+    tackling_accuracy = "{:.2f}".format(tackling_accuracy)
+
+    return tackling_accuracy
+
+def interception_rate_calc(intercept,minute):
+
+    interception_rate = (intercept / minute) * 90
+
+    interception_rate = "{:.2f}".format(interception_rate)
+
+    return interception_rate
     
 
 def generate_passing_feedback(passing_accuracy):
@@ -940,6 +956,29 @@ def index():
 
                 }
 
+                passing_accuracy = passing_calculation(passes_att,passes_comp)
+                goal_rate_calc = goal_rate(goals,minutes)
+                assist_rate_calc = assist_rate(assist,minutes)
+                goal_contributions_calc = goal_contributions(goals,assist,minutes)
+                dribbles_success_rate = dribbles_success_rate_calc(dribbles_att,dribbles_comp)
+                key_passes_per = key_passes_percentage(key_p,passes_att)
+                tackling_accuracy_rate = tackling_accuracy_calc(tackles_att,tackles_comp)
+                interception_rate = interception_rate_calc(intercept,minutes)
+
+
+                session["midfielder_calculated_stats"]={
+
+                    "passing_accuracy":float(passing_accuracy),
+                    "goal_rate":float(goal_rate_calc),
+                    "assist_rate":float(assist_rate_calc),
+                    "goal_contributions":float(goal_contributions_calc),
+                    "dribbles_success_rate":float(dribbles_success_rate),
+                    "key_passes_rate":float(key_passes_per),
+                    "tackling_accuracy_rate":float(tackling_accuracy_rate),
+                    "interception_rate":float(interception_rate)
+
+                }
+
             elif form_type == "defender":
 
                 time_played = request.form["timePlayed"]
@@ -1329,6 +1368,13 @@ def result():
     elif form_type == "midfielder":
 
         player_inputted_data = session.get("midfielder_data")
+        midfielder_calculated_data = session.get("midfielder_calculated_stats")
+
+        session["player_calculated_data"] = midfielder_calculated_data
+        player_calculated_data = session.get("player_calculated_data")
+
+        session["player_position"] = "midfielder"
+        position = session.get("player_position")
 
     elif form_type == "defender":
 
