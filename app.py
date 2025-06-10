@@ -88,6 +88,14 @@ def fouls_drawn_per_90_calc(fouls_d,minute):
 
     return fouls_drawn_per_90
 
+def crossing_accuracy_calc(crosses_att,crosses_comp):
+
+    crossing_accuracy = (crosses_comp / crosses_att) * 100
+
+    crossing_accuracy = "{:.2f}".format(crossing_accuracy)
+
+    return crossing_accuracy
+
     
 
 def generate_passing_feedback(passing_accuracy):
@@ -701,6 +709,16 @@ def index():
                     "crosses_completed":crosses_comp
 
             	 }
+
+                passing_accuracy = passing_calculation(passes_att,passes_comp)
+                shooting_accuracy,shot_conversion_rate = shots_calculation(shots_att,shots_on,goals)
+                goal_rate_calc = goal_rate(goals,minutes)
+                assist_rate_calc = assist_rate(assist,minutes)
+                goal_contributions_calc = goal_contributions(goals,assist,minutes)
+                dribbles_success_rate = dribbles_success_rate_calc(dribbles_att,dribbles_comp)
+                key_passes_per = key_passes_percentage(key_p,passes_att)
+                crossing_accuracy = crossing_accuracy_calc(crosses_att,crosses_comp)
+               
                 
                 session["winger_calculated_stats"]={
 
@@ -709,9 +727,10 @@ def index():
                     "shot_conversion":float(shot_conversion_rate),
                     "goal_rate":float(goal_rate_calc),
                     "assist_rate":float(assist_rate_calc),
-                    "goal_contributions":float(goal_contributions_calc)
-
-
+                    "goal_contributions":float(goal_contributions_calc),
+                    "dribbles_success_rate":float(dribbles_success_rate),
+                    "key_passes_rate":float(key_passes_per),
+                    "crossing_accuracy":float(crossing_accuracy)
 
                 }
                 
@@ -1287,10 +1306,25 @@ def result():
 
         player_inputted_data = session.get("striker_data")
         striker_calculated_data = session.get("striker_calculated_stats")
+
+        session["player_calculated_data"] = striker_calculated_data
+        player_calculated_data = session.get("player_calculated_data")
+
+        session["player_position"] = "striker"
+        position = session.get("player_position")
+
+
         
     elif form_type == "winger":
 
         player_inputted_data = session.get("winger_data")
+        winger_calculated_data = session.get("winger_calculated_stats")
+
+        session["player_calculated_data"] = winger_calculated_data
+        player_calculated_data = session.get("player_calculated_data")
+
+        session["player_position"] = "winger"
+        position = session.get("player_position")
 
     elif form_type == "midfielder":
 
@@ -1322,12 +1356,12 @@ def result():
     '''
      
 
-    if not player_inputted_data or not striker_calculated_data:
+    if not player_inputted_data or not player_calculated_data :
 
         return redirect('/')
 
-    return render_template('result.html',player_inputted_data=player_inputted_data,striker_calculated_data=striker_calculated_data
-                                        ,feedback_list=feedback_list,position=form_type)
+    return render_template('result.html',player_inputted_data=player_inputted_data,player_calculated_data=player_calculated_data,position=position
+                                        ,feedback_list=feedback_list)
 
 
 if __name__ == "__main__":

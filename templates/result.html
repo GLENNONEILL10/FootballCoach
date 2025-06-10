@@ -189,36 +189,36 @@
             </tr>
             <tr>
                 <td>Passing Accuracy</td>
-                <td class="{% if striker_calculated_data.passing_accuracy > 80 %}green-text
+                <td class="{% if player_calculated_data.passing_accuracy > 80 %}green-text
 
-                            {% elif striker_calculated_data.passing_accuracy >= 50 %}orange-text
+                            {% elif player_calculated_data.passing_accuracy >= 50 %}orange-text
 
                             {% else %}red-text{% endif %}">
 
-                    {{ striker_calculated_data.passing_accuracy }} %
+                    {{ player_calculated_data.passing_accuracy }} %
                 </td>
             </tr>
             <tr>
     
                 <td>Shot Accuracy</td>
-                <td class="{% if striker_calculated_data.shot_accuracy > 80 %}green-text
+                <td class="{% if player_calculated_data.shot_accuracy > 80 %}green-text
 
-                            {% elif striker_calculated_data.shot_accuracy >= 50 %}orange-text
+                            {% elif player_calculated_data.shot_accuracy >= 50 %}orange-text
 
                             {% else %}red-text{% endif %}">
 
-                    {{ striker_calculated_data.shot_accuracy }} %
+                    {{ player_calculated_data.shot_accuracy }} %
                 </td>
             </tr>
             <tr>
                 <td>Shot Conversion Rate</td>
-                <td class="{% if striker_calculated_data.shot_conversion > 25 %}green-text
+                <td class="{% if player_calculated_data.shot_conversion > 25 %}green-text
 
-                            {% elif striker_calculated_data.shot_conversion >= 15 %}orange-text
+                            {% elif player_calculated_data.shot_conversion >= 15 %}orange-text
 
                             {% else %}red-text{% endif %}">
 
-                    {{ striker_calculated_data.shot_conversion }} %
+                    {{ player_calculated_data.shot_conversion }} %
 
                 </td>
             </tr>
@@ -226,19 +226,19 @@
               
 
                 <td>Goal Rate</td>
-                <td>{{ striker_calculated_data.goal_rate }}</td>
+                <td>{{ player_calculated_data.goal_rate }}</td>
             </tr>
         
             <tr>
                 
                 <td>Assist Rate</td>
-                <td>{{ striker_calculated_data.assist_rate }}</td>
+                <td>{{ player_calculated_data.assist_rate }}</td>
             </tr>
             
             <tr>
                
                 <td>Goal Contribution</td>
-                <td>{{ striker_calculated_data.goal_contributions }}</td>
+                <td>{{ player_calculated_data.goal_contributions }}</td>
 
 
             </tr>
@@ -246,13 +246,13 @@
             <tr>
                
                 <td>Key Passes per Passes Attempted</td>
-                <td class = "{% if striker_calculated_data.key_passes_rate > 10%}green-text
+                <td class = "{% if player_calculated_data.key_passes_rate > 10%}green-text
 
-                             {% elif striker_calculated_data.key_passes_rate >= 7%}orange-text
+                             {% elif player_calculated_data.key_passes_rate >= 7%}orange-text
 
                              {% else %}red-text{% endif %}">
 
-                    {{ striker_calculated_data.key_passes_rate }} %
+                    {{ player_calculated_data.key_passes_rate }} %
 
 
             </tr>
@@ -260,7 +260,7 @@
             <tr>
                
                 <td>Touches in opposition box rate</td>
-                <td>{{ striker_calculated_data.touches_in_box_rate }}</td>
+                <td>{{ player_calculated_data.touches_in_box_rate }}</td>
 
 
             </tr>
@@ -268,7 +268,7 @@
             <tr>
                
                 <td>Offside Rate</td>
-                <td>{{ striker_calculated_data.offsides_rate }}</td>
+                <td>{{ player_calculated_data.offsides_rate }}</td>
 
 
             </tr>
@@ -276,7 +276,7 @@
             <tr>
                
                 <td>Fouls Drawn Rate</td>
-                <td>{{ striker_calculated_data.fouls_drawn_rate }}</td>
+                <td>{{ player_calculated_data.fouls_drawn_rate }}</td>
 
 
             </tr>
@@ -287,6 +287,88 @@
                 <th>Metric</th>
                 <th>Value</th>
             </tr>
+
+            <tr>
+                <td>Passing Accuracy</td>
+                <td class="{% if player_calculated_data.passing_accuracy > 80 %}green-text
+
+                            {% elif player_calculated_data.passing_accuracy >= 50 %}orange-text
+
+                            {% else %}red-text{% endif %}">
+
+                    {{ player_calculated_data.passing_accuracy }} %
+                </td>
+            </tr>
+            <tr>
+    
+                <td>Shot Accuracy</td>
+                <td class="{% if player_calculated_data.shot_accuracy > 80 %}green-text
+
+                            {% elif player_calculated_data.shot_accuracy >= 50 %}orange-text
+
+                            {% else %}red-text{% endif %}">
+
+                    {{ player_calculated_data.shot_accuracy }} %
+                </td>
+            </tr>
+            <tr>
+                <td>Shot Conversion Rate</td>
+                <td class="{% if player_calculated_data.shot_conversion > 25 %}green-text
+
+                            {% elif player_calculated_data.shot_conversion >= 15 %}orange-text
+
+                            {% else %}red-text{% endif %}">
+
+                    {{ player_calculated_data.shot_conversion }} %
+
+                </td>
+            </tr>
+            <tr>
+              
+
+                <td>Goal Rate</td>
+                <td>{{ player_calculated_data.goal_rate }}</td>
+            </tr>
+        
+            <tr>
+                
+                <td>Assist Rate</td>
+                <td>{{ player_calculated_data.assist_rate }}</td>
+            </tr>
+            
+            <tr>
+               
+                <td>Goal Contribution</td>
+                <td>{{ player_calculated_data.goal_contributions }}</td>
+
+
+            </tr>
+
+            <tr>
+               
+                <td>Key Passes per Passes Attempted</td>
+                <td class = "{% if player_calculated_data.key_passes_rate > 10%}green-text
+
+                             {% elif player_calculated_data.key_passes_rate >= 7%}orange-text
+
+                             {% else %}red-text{% endif %}">
+
+                    {{ player_calculated_data.key_passes_rate }} %
+
+
+            </tr>
+
+            <tr>
+                <td>Crossing Accuracy</td>
+                <td class = "{% if player_calculated_data.crossing_accuracy > 40 %}green-text
+                             {% elif player_calculated_data.crossing_accuracy >= 20 %}orange-text
+                             {% else %} red-text{% endif %}">
+
+                    {{ player_calculated_data.crossing_accuracy }} %
+
+
+            </tr>
+
 
             {% endif %}
         </table>
