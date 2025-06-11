@@ -83,13 +83,14 @@
 
                 {% elif position == "goalkeeper" %}
                 <th>Time Played</th>
+                <th>Passes Attempted</th>
+                <th>Passes Complete</th>
                 <th>Shots Faced</th>
                 <th>Saved Made</th>
                 <th>Goals Conceded</th>
                 <th>Error Leading to Shot</th>
                 <th>Error Leading to Goal</th>
-                <th>Passes Attempted</th>
-                <th>Passes Complete</th>
+                
         
                 {% endif %}
 
@@ -486,6 +487,154 @@
 
             </tr>
 
+            {% elif position == "defender" %}
+
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+
+            <tr>
+                <td>Passing Accuracy</td>
+                <td class="{% if player_calculated_data.passing_accuracy > 80 %}green-text
+
+                            {% elif player_calculated_data.passing_accuracy >= 50 %}orange-text
+
+                            {% else %}red-text{% endif %}">
+
+                    {{ player_calculated_data.passing_accuracy }} %
+                </td>
+            </tr>
+
+            <tr>
+              
+
+                <td>Goal Rate</td>
+                <td>{{ player_calculated_data.goal_rate }}</td>
+            </tr>
+
+            <tr>
+                <td>Tackling Accuracy</td>
+                <td class = "{% if player_calculated_data.tackling_accuracy_rate > 80 %}green-text
+
+                             {% elif player_calculated_data.tackling_accuracy_rate > 60 %}orange-text
+
+                             {% else %}red-text{% endif %}">
+
+
+                        {{ player_calculated_data.tackling_accuracy_rate }} %
+
+
+            </tr>
+
+            <tr>
+
+                <td>Interception Rate per 90</td>
+                <td>{{ player_calculated_data.interception_rate }}</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Clearance Rate per 90</td>
+                <td>{{ player_calculated_data.clearance_rate}}</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Block Rate per 90</td>
+                <td>{{ player_calculated_data.block_rate }}</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Aerial Duels Success Rate</td>
+                <td class = "{% if player_calculated_data.aerial_duel_success_rate > 60 %}green-text
+                    
+                             {% elif player_calculated_data.aerial_duel_success_rate >= 40 %}orange-text
+                             
+                             {% else %}red-text {% endif %}">
+
+                    {{ player_calculated_data.aerial_duel_success_rate }} %
+
+
+            </tr>
+
+            <tr>
+
+                <td>Fouls Committed per 90</td>
+                <td>{{ player_calculated_data.fouls_committed_rate }}</td>                
+
+
+            </tr>
+
+            {% elif position == "goalkeeper" %}
+
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+
+            <tr>
+                <td>Passing Accuracy</td>
+                <td class="{% if player_calculated_data.passing_accuracy > 80 %}green-text
+
+                            {% elif player_calculated_data.passing_accuracy >= 50 %}orange-text
+
+                            {% else %}red-text{% endif %}">
+
+                    {{ player_calculated_data.passing_accuracy }} %
+                </td>
+            </tr>
+
+            <tr>
+
+                <td>Save Percentage</td>
+                <td class="{% if player_calculated_data.save_percentage > 75 %}green-text
+                    
+                           {% elif player_calculated_data.save_percentage >= 60 %}orange-text
+                           
+                           {% else %}red-text {% endif %}">
+
+                    {{ player_calculated_data.save_percentage }} %
+
+            </tr>
+
+            <tr>
+
+                <td>Goals Conceded</td>
+                <td>{{ player_calculated_data.goals_conceded }}</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Save To Goal Ratio</td>
+                <td class="{% if player_calculated_data.save_to_goal_ratio > 3.0 %}green-text
+                    
+                           {% elif player_calculated_data.save_to_goal_ratio >= 1.0 %}orange-text
+                           
+                           {% else %}red-text {% endif %}">
+
+                    {{ player_calculated_data.save_to_goal_ratio }}
+
+            </tr>
+
+            <tr>
+
+                <td>Errors per 90</td>
+                <td>{{ player_calculated_data.errors_per_90}}</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Clean Sheet</td>
+                <td>{{ player_calculated_data.clean_sheet }}</td>
+
+            </tr>
 
 
             {% endif %}

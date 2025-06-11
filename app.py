@@ -112,7 +112,82 @@ def interception_rate_calc(intercept,minute):
     interception_rate = "{:.2f}".format(interception_rate)
 
     return interception_rate
+
+
+def clearances_rate_calc(clear,minutes):
+
+    clearances_rate = (clear / minutes) * 90
+
+    clearances_rate = "{:.2f}".format(clearances_rate)
+
+    return clearances_rate
+
+
+def block_rate_calc(bloc,minutes):
+
+    block_rate = (bloc / minutes) * 90
+
+    block_rate = "{:.2f}".format(block_rate)
+
+    return block_rate
+
+def aerial_duel_success_rate_calc(aerial_duels_att,aerial_duels_comp):
+
+    aerial_duel_success_rate = (aerial_duels_comp / aerial_duels_att) * 100
+
+    aerial_duel_success_rate = "{:.2f}".format(aerial_duel_success_rate)
+
+    return aerial_duel_success_rate
+
+def fouls_committed_rate_calc(fouls_c,minutes):
+
+    fouls_committed_rate = (fouls_c / minutes) * 90
+
+    fouls_committed_rate = "{:.2f}".format(fouls_committed_rate)
+
+    return fouls_committed_rate
+
+def save_percentage_calc(saves_m,shots_f):
+
+    save_percentage = (saves_m / shots_f) * 100
+
+    save_percentage = "{:.2f}".format(save_percentage)
+
+    return save_percentage
+
+def goals_conceded_rate(goals_c , minutes):
+
+    goals_conceded = (goals_c / minutes) * 90
+
+    goals_conceded = "{:.2f}".format(goals_conceded)
+
+    return goals_conceded
+
+def save_to_goal_ratio_calc(saves_m,goals_c):
+
+    save_to_goal_ratio = (saves_m / goals_c)
+
+    save_to_goal_ratio = "{:.2f}".format(save_to_goal_ratio)
+
+    return save_to_goal_ratio
+
+def errors_per_90_calc(error_leading_to_shot,error_leading_to_goal,minutes):
+
+    errors_per_90 = ((error_leading_to_shot + error_leading_to_goal) / minutes) * 100
+
+    errors_per_90 = "{:.2f}".format(errors_per_90)
+
+    return errors_per_90
+
+def clean_sheets_rate(goals_c):
+
+    if goals_c == 0:
+
+        return "No"
     
+    elif goals_c > 0:
+
+        return "Yes"
 
 def generate_passing_feedback(passing_accuracy):
 
@@ -1196,6 +1271,31 @@ def index():
                     "fouls_committed":fouls_c
 
                 }
+
+
+                passing_accuracy = passing_calculation(passes_att,passes_comp)
+                goal_rate_calc = goal_rate(goals,minutes)
+                tackling_accuracy_rate = tackling_accuracy_calc(tackles_att,tackles_comp)
+                interception_rate = interception_rate_calc(intercept,minutes)
+                clearances_rate = clearances_rate_calc(clear,minutes)
+                block_rate = block_rate_calc(bloc,minutes)
+                aerial_duel_success_rate = aerial_duel_success_rate_calc(aerial_duels_att,aerial_duels_comp)
+                fouls_committed_rate = fouls_committed_rate_calc(fouls_c,minutes)
+
+
+
+                session["defender_calculated_stats"]={
+
+                    "passing_accuracy":float(passing_accuracy),
+                    "goal_rate":float(goal_rate_calc),
+                    "tackling_accuracy_rate":float(tackling_accuracy_rate),
+                    "interception_rate":float(interception_rate),
+                    "clearance_rate":float(clearances_rate),
+                    "block_rate":float(block_rate),
+                    "aerial_duel_success_rate":float(aerial_duel_success_rate),
+                    "fouls_committed_rate":float(fouls_committed_rate)
+
+                }
             
             elif form_type == "goalkeeper":
 
@@ -1317,6 +1417,25 @@ def index():
                     "error_leading_to_goal":error_leading_goal
 
                 }
+
+                passing_accuracy = passing_calculation(passes_att,passes_comp)
+                save_percentage = save_percentage_calc(saves_m,shots_f)
+                goals_conceded = goals_conceded_rate(goals_c,minutes)
+                save_to_goal_ratio = save_to_goal_ratio_calc(saves_m,goals_c)
+                errors_per_90 = errors_per_90_calc(error_leading_shot,error_leading_goal,minutes)
+                clean_sheet = clean_sheets_rate(goals_c)
+
+                session["goalkeeper_calculated_stats"]={
+
+                    "passing_accuracy":float(passing_accuracy),
+                    "save_percentage":float(save_percentage),
+                    "goals_conceded":float(goals_conceded),
+                    "save_to_goal_ratio":float(save_to_goal_ratio),
+                    "errors_per_90":float(errors_per_90),
+                    "clean_sheet":clean_sheet
+                    
+                }
+
                 
             else:
 
@@ -1379,10 +1498,25 @@ def result():
     elif form_type == "defender":
 
         player_inputted_data = session.get("defender_data")
+        defender_calculated_data = session.get("defender_calculated_stats")
+
+        session["player_calculated_data"] = defender_calculated_data
+        player_calculated_data = session.get("player_calculated_data")
+
+        session["player_position"] = "defender"
+        position = session.get("player_position")
+
 
     elif form_type == "goalkeeper":
 
         player_inputted_data = session.get("goalkeeper_data")
+        goalkeeper_calculated_data = session.get("goalkeeper_calculated_stats")
+
+        session["player_calculated_data"] = goalkeeper_calculated_data
+        player_calculated_data = session.get("player_calculated_data")
+
+        session["player_position"] = "goalkeeper"
+        position = session.get("player_position")
 
     else:
         return redirect("/")
