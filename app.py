@@ -230,16 +230,16 @@ def generate_shooting_feedback(shot_accuracy,shot_conversion,shots_att):
             feedback.append("You shooting isnt good, you will need to work on this if you want to convert into goals")
 
     
-        if shot_conversion > 40 and shots_att >= 4:
+        if shot_conversion >= 40 and shots_att > 4:
 
             feedback.append("You didnt do this, this is far above what even messi gets this")
 
         
-        elif shot_conversion > 25 and shot_conversion < 40 :
+        elif shot_conversion > 40 :
 
             feedback.append("This is pro standard keep it up")
         
-        elif shot_conversion > 10 and shot_conversion < 25:
+        elif shot_conversion > 25:
 
             feedback.append("This is good shooting, keep improving and you will score many goals")
     
@@ -302,9 +302,112 @@ def generate_goal_contribution_feedback(goal_rate,assist_rate,goal_contributions
     return feedback
 
 
-def generate_function_feedback():
+def generate_key_passes_feedback(key_passes_per):
 
-    postion_based_feedback = []
+    feedback = []
+
+    if key_passes_per :
+
+        if key_passes_per >= 10:
+
+            feedback.append("Well Done You were very creative with today, with many of your passes being key")
+
+        elif key_passes_per > 5:
+
+            feedback.append("Decent creative performance today, you should try and convert some of your passive passes to forward key passes")
+
+        else:
+
+            feedback.append("Not good enough with your forward creative passes, you need to work on creating more chances to improve your teams "
+                            "chance of scoring")
+            
+        return feedback
+    
+
+def generate_dribbling_feedback(dribbles_success_rate):
+
+    feedback = []
+
+    if dribbles_success_rate:
+
+        if dribbles_success_rate >=70:
+
+            feedback.append("Brilliant Dribbling today you beat your man well and made it a nightmare for him, keep it up")
+
+        elif dribbles_success_rate >=50:
+
+            feedback.append("Good Dribbling today, keep trying and you will improve, you will cause danger")
+
+        else:
+
+            feedback.append("You Should release the ball more and choose your dribbles better")
+
+        return feedback
+    
+def generate_touches_in_opp_box_feedback(touches_in_opp_box_per_90):
+
+    feedback = []
+
+    if touches_in_opp_box_per_90:
+
+        if touches_in_opp_box_per_90 >= 8:
+
+            feedback.append("Very Strong Attacking Presence today, you will find many opportunities to score")
+
+        elif touches_in_opp_box_per_90 >= 4:
+
+            feedback.append("You should stay more forward to take and recieve scoring opportunities")
+
+        else:
+
+            feedback.append("You lacked forward penetration, you are playing too deep, you will need to improve this to score more"
+                            " and become a better striker")
+            
+        return feedback
+            
+def generate_offside_feedback(offsides_per_90):
+
+    feedback = []
+
+    if offsides_per_90:
+
+        if offsides_per_90 >= 4:
+
+            feedback.append("You were offside too often today, you need to do better and watch your runs")
+
+        elif offsides_per_90 > 1:
+
+            feedback.append("You were offside more times than you should be, its nothing to be worried about you just need to"
+                            " improve your timing when making runs")
+            
+        else:
+
+            feedback.append("You had no offsides today, well done you timed your runs very well")
+
+        return feedback
+
+def generate_fouls_drawn_feedback(fouls_drawn_per_90):
+
+    feedback = []
+
+    if fouls_drawn_per_90:
+
+        if fouls_drawn_per_90 > 5:
+
+            feedback.append("Terrific you caused the defenders so many problems today keep it up and you will win frees and penos")
+
+        elif fouls_drawn_per_90 >= 1:
+
+            feedback.append("Nice you drew fouls meaning you were a threat today")
+
+        else:
+
+            feedback.append("You didnt cause the centre backs enough problems today, doesnt mean you played bad" \
+                            " but it is something to be mindful about")
+            
+        return feedback
+    
+
 
     
 
@@ -1459,6 +1562,7 @@ def index():
 def result():
 
     form_type = session.get("position")
+    feedback_list = []
 
     if form_type == "striker":
 
@@ -1471,7 +1575,42 @@ def result():
         session["player_position"] = "striker"
         position = session.get("player_position")
 
+        print("Striker calculated data:", striker_calculated_data)
 
+        passing_accuracy = striker_calculated_data.get("passing_accuracy")
+        shot_accuracy = striker_calculated_data.get("shot_accuracy")
+        shot_conversion = striker_calculated_data.get("shot_conversion")
+        shots_att = int(player_inputted_data.get("shots_att",0))
+        goal_rate = striker_calculated_data.get("goal_rate")
+        assist_rate = striker_calculated_data.get("assist_rate")
+        goal_contributions = striker_calculated_data.get("goal_contributions")
+        key_passes_rate = striker_calculated_data.get("key_passes_rate")
+        dribbles_success_rate = striker_calculated_data.get("dribbles_success_rate")
+        touches_in_box_rate = striker_calculated_data.get("touches_in_box_rate")
+        offsides_rate = striker_calculated_data.get("offsides_rate")
+        fouls_drawn_rate = striker_calculated_data.get("fouls_drawn_rate")
+
+        print("Striker calculated data:", striker_calculated_data)
+
+        passing_feedback = generate_passing_feedback(passing_accuracy)
+        shooting_feedback = generate_shooting_feedback(shot_accuracy,shot_conversion,shots_att)
+        goal_contribution_feedback = generate_goal_contribution_feedback(goal_rate,assist_rate,goal_contributions)
+        key_passes_feedback = generate_key_passes_feedback(key_passes_rate)
+        dribbling_feedback = generate_dribbling_feedback(dribbles_success_rate)
+        touches_in_opp_box_per_90_feedback = generate_touches_in_opp_box_feedback(touches_in_box_rate)
+        offsides_feedback = generate_offside_feedback(offsides_rate)
+        fouls_drawn_feedback = generate_fouls_drawn_feedback(fouls_drawn_rate)
+    
+
+        for feedback in [passing_feedback, shooting_feedback, goal_contribution_feedback,key_passes_feedback,dribbling_feedback,
+                         touches_in_opp_box_per_90_feedback,offsides_feedback,fouls_drawn_feedback]:
+
+            if isinstance(feedback, list):
+
+                feedback_list.extend(feedback)
+
+            elif feedback:
+                feedback_list.append(feedback)
         
     elif form_type == "winger":
 
@@ -1483,6 +1622,28 @@ def result():
 
         session["player_position"] = "winger"
         position = session.get("player_position")
+
+        passing_accuracy = winger_calculated_data.get("passing_accuracy")
+        shot_accuracy = winger_calculated_data.get("shot_accuracy")
+        shot_conversion = winger_calculated_data.get("shot_conversion")
+        shots_att = int(player_inputted_data.get("shots_att",0))
+        goal_rate = winger_calculated_data.get("goal_rate")
+        assist_rate = winger_calculated_data.get("assist_rate")
+        goal_contributions = winger_calculated_data.get("goal_contributions")
+
+        passing_feedback = generate_passing_feedback(passing_accuracy)
+        shooting_feedback = generate_shooting_feedback(shot_accuracy,shot_conversion,shots_att)
+        goal_contribution_feedback = generate_goal_contribution_feedback(goal_rate,assist_rate,goal_contributions)
+        
+        for feedback in [passing_feedback, shooting_feedback, goal_contribution_feedback]:
+
+            if isinstance(feedback, list):
+
+                feedback_list.extend(feedback)
+
+            elif feedback:
+                feedback_list.append(feedback)
+    
 
     elif form_type == "midfielder":
 
@@ -1520,21 +1681,6 @@ def result():
 
     else:
         return redirect("/")
-
-    feedback_list = []
-
-    '''
-    for feedback in [passing_feedback, shooting_feedback, goal_contribution_feedback]:
-
-        if isinstance(feedback, list):
-
-            feedback_list.extend(feedback)
-
-        elif feedback:
-            feedback_list.append(feedback)
-
-    '''
-     
 
     if not player_inputted_data or not player_calculated_data :
 

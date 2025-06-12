@@ -73,7 +73,7 @@ body, html {
 
 .strikerTable-container {
     display: flex;
-    justify-content: flex-start; /* align items to the left */
+    justify-content: center; /* align items to the left */
     padding: 20px;
     gap: 40px; /* space between table and right content */
 }
@@ -139,10 +139,10 @@ body, html {
 }
 
 .back-button {
-    position: fixed;
-    bottom: 20px;
+    position: flex;
+    justify-items: center;
+    top: 50px;
     left: 50%;
-    transform: translateX(-50%);
     text-align: center;
 }
 
@@ -161,19 +161,27 @@ body, html {
     background-color: #0056b3;
 }
 
-.feedback-container {
-    position:fixed;       /* Fix it relative to viewport */
-    right: 350px;           /* 20px from right edge */
-    top: 70%;              /* Vertically center */
-    transform: translateY(-50%);  /* Adjust for exact vertical center */
-    width: 500px;          /* Fixed width */
+.stats-feedback-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 20px;
-    background-color: #f9f9f9;  /* Light background */
-    border: 1px solid #ccc;     /* Gray border */
+    box-sizing: border-box;
+  }
+
+.feedback-container {
+    width:1400px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     font-family: Arial, sans-serif;
   }
+  
+  
   
   .feedback-container h3 {
     margin-top: 0;
