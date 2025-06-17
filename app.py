@@ -157,19 +157,32 @@ def save_percentage_calc(saves_m,shots_f):
 
 def goals_conceded_rate(goals_c , minutes):
 
-    goals_conceded = (goals_c / minutes) * 90
+    if goals_c == 0:
 
-    goals_conceded = "{:.2f}".format(goals_conceded)
+    
+        return 0
 
-    return goals_conceded
+    else:
+
+        goals_conceded = (goals_c / minutes) * 90
+
+        goals_conceded = "{:.2f}".format(goals_conceded)
+
+        return goals_conceded
+
 
 def save_to_goal_ratio_calc(saves_m,goals_c):
 
-    save_to_goal_ratio = (saves_m / goals_c)
+    if goals_c == 0:
 
-    save_to_goal_ratio = "{:.2f}".format(save_to_goal_ratio)
+        return 0
 
-    return save_to_goal_ratio
+    else:
+        save_to_goal_ratio = (saves_m / goals_c)
+
+        save_to_goal_ratio = "{:.2f}".format(save_to_goal_ratio)
+
+        return save_to_goal_ratio
 
 def errors_per_90_calc(error_leading_to_shot,error_leading_to_goal,minutes):
 
@@ -183,11 +196,11 @@ def clean_sheets_rate(goals_c):
 
     if goals_c == 0:
 
-        return "No"
+        return "Yes"
     
     elif goals_c > 0:
 
-        return "Yes"
+        return "No"
 
 def generate_passing_feedback(passing_accuracy):
 
@@ -254,50 +267,42 @@ def generate_goal_contribution_feedback(goal_rate,assist_rate,goal_contributions
 
     feedback = []
 
-    if goal_rate and assist_rate and goal_contributions:
+    if goal_rate >= 2:
 
-        if goal_rate >= 2:
+        feedback.append("You scored very well today")
 
-            feedback.append("You scored very well today")
+    elif goal_rate == 1:
 
-        elif goal_rate == 1:
+        feedback.append("Nice you scored well done")
 
-            feedback.append("Nice you scored well done")
-
-        else:
-
-            feedback.append("Unlucky you didnt score this time")
-
-        if assist_rate >=2:
-
-            feedback.append("Well done your provided your teamates with lots of goals")
-
-        elif assist_rate == 1:
-
-            feedback.append("Nice Assist today")
-
-        else:
-
-            feedback.append("Unlucky you didnt provide assist")
-
-        if goal_contributions > 6:
-
-            feedback.append("Terrific performance today you were the best player on the pitch")
-        
-        elif goal_contributions < 6 and goal_contributions >= 3:
-
-            feedback.append("Very good performance keep it up")
-
-        elif goal_contributions < 3 and goal_contributions > 1:
-
-            feedback.append("Nice performance keep working to ensure its consistant")
-
-        else:
-
-            feedback.append("Unlucky you didnt contribute to any goals")        
     else:
 
-        return "Error you didnt fill out the form properly"
+        feedback.append("Unlucky you didnt score this time")
+
+    if assist_rate >=2:
+
+        feedback.append("Well done your provided your teamates with lots of goals")
+
+    elif assist_rate == 1:
+
+        feedback.append("Nice Assist today")
+
+    else:
+
+        feedback.append("Unlucky you didnt provide assist")
+
+    if goal_contributions > 6:
+
+        feedback.append("Terrific performance today you were the best player on the pitch")
+
+    elif goal_contributions >= 1:
+
+        feedback.append("Nice performance you contributed to your teams goals, keep working to ensure its consistant")
+
+    else:
+
+        feedback.append("Unlucky you didnt contribute to any goals")        
+  
 
     return feedback
 
@@ -375,7 +380,7 @@ def generate_offside_feedback(offsides_per_90):
 
             feedback.append("You were offside too often today, you need to do better and watch your runs")
 
-        elif offsides_per_90 > 1:
+        elif offsides_per_90 >= 1:
 
             feedback.append("You were offside more times than you should be, its nothing to be worried about you just need to"
                             " improve your timing when making runs")
@@ -407,9 +412,248 @@ def generate_fouls_drawn_feedback(fouls_drawn_per_90):
             
         return feedback
     
+def generate_crossing_feedback(crossing_accuracy):
 
+    feedback = []
 
+    if crossing_accuracy:
+
+        if crossing_accuracy > 70:
+
+            feedback.append("Utter Class Crossing today, keep it up")
+
+        elif crossing_accuracy >=20:
+
+            feedback.append("Your Crossing Was decent today, You need still need to work on it")
+
+        else:
+
+            feedback.append("Your Crossing was terrible today, you need to improve in this key area")
+
+        return feedback    
+
+def generate_tackling_feedback(tackling_accuracy):
+
+    feedback = []
+
+    if tackling_accuracy:
+
+        if tackling_accuracy >= 80:
+
+            feedback.append("Your Tackling was second to none, absolutly brilliant")
+
+        elif tackling_accuracy >60:
+
+            feedback.append("Your tackling was good today, but you will need to improve")
+
+        else:
+
+            feedback.append("Your tackling was very bad today, you need to learn to judge the tackle better")
+
+        return feedback
     
+def generate_interception_feedback(interception_rate):
+
+    feedback = []
+
+    if interception_rate:
+
+        if interception_rate >= 3:
+
+            feedback.append("You read the play unbelievably today, great preformance")
+
+        elif interception_rate >=1:
+
+            feedback.append("Good reading of the play today, keep it up")
+
+        else:
+
+            feedback.append("You should try and keep your head up and anticipate the play better")
+
+
+        return feedback
+    
+def generate_clearance_feedback(clearance_rate):
+
+    feedback = []
+
+    if clearance_rate:
+
+        if clearance_rate >= 6:
+
+            feedback.append("Your clearances were vital for your team today, terrific keep it up")
+
+        elif clearance_rate >=2:
+
+            feedback.append("Well done on your clearances, you got your team out of trouble at times")
+
+        else:
+
+            feedback.append("Unlucky, you should try and judge the ball when its in the box to clear")
+
+        return feedback
+
+def generate_block_feedback(block_rate):
+
+
+    feedback = []
+
+    if block_rate:
+
+        if block_rate >=3:
+
+            feedback.append("Brave performance today, you put your body on the line to help your team")
+
+        elif block_rate >=1:
+
+            feedback.append("Good blocking today keep it up")
+
+        else:
+
+            feedback.append("You need to be more brave in your defending")
+
+        return feedback
+    
+def generate_aerial_duel_feedback(aerial_duel_success_rate):
+
+    feedback = []
+
+    if aerial_duel_success_rate:
+
+        if aerial_duel_success_rate > 60:
+
+            feedback.append("You dominated your aerial duels today, very good performance, keep it up")
+
+        elif aerial_duel_success_rate >=40:
+
+            feedback.append("You done well against the striker today, but you need to improve to dominate")
+
+        else:
+
+            feedback.append("You were bullied by your opponent today, you need to improve in this area to become a complete defender")
+
+        return feedback
+
+def generate_fouls_committed_feedback(fouls_committed_rate):
+
+    feedback = []
+
+    if fouls_committed_rate:
+
+        if fouls_committed_rate > 5:
+
+            feedback.append("You need to be more deciplined in your defending to prevent conceding fouls")
+
+        elif fouls_committed_rate >= 1:
+
+            feedback.append("You committed too many fouls")
+
+        else:
+
+            feedback.append("Very deciplined in your defending today keep it up")
+
+        return feedback
+    
+
+def generate_save_percentage_feedback(save_percentage):
+
+    feedback = []
+
+    if save_percentage:
+
+        if save_percentage > 75:
+
+            feedback.append("Great shot stopping today, well done")
+
+        elif save_percentage >= 60:
+
+            feedback.append("Decent performance, you still need to work on this area to get better")
+
+        else:
+
+            feedback.append("Terrible performance, you need to improve tremendously")
+
+        return feedback
+    
+def generate_goals_conceded_feedback(goals_conceded):
+
+    feedback = []
+
+    if goals_conceded:
+
+        if goals_conceded > 3:
+
+            feedback.append("You conceded too many goals, you need to improve your goal stopping to help your team")
+
+        elif goals_conceded >=1:
+
+            feedback.append("Unlucky today, just keep working in training and you will prevent goals")
+
+        else:
+
+            feedback.append("Well Done you didnt concede any goals")
+
+        return feedback
+    
+
+def generate_save_to_goal_feedback(save_to_goal_ratio):
+
+    feedback = []
+
+    if save_to_goal_ratio:
+
+        if save_to_goal_ratio > 3.0:
+
+            feedback.append("Well done you saved the ball more than you conceded goals")
+
+        elif save_to_goal_ratio >=1:
+
+            feedback.append("Decent performance you still need to work on your shot and goal stopping")
+
+        else:
+
+            feedback.append("You need to improve your goalkeeping if you want to stay in the team")
+
+        return feedback
+            
+def generate_errors_per_90_feedback(errors_per_90):
+
+    feedback = []
+
+    if errors_per_90:
+
+        if errors_per_90 >= 4:
+
+            feedback.append("Very bad, You need to keep tuned in and improve your distribution badly")
+
+        elif errors_per_90 >=1:
+
+            feedback.append("You need to keep the mistakes out of your game and you will improve")
+
+        else:
+
+            feedback.append("Well done you were very diciplined in your performance, keep it up well done")
+
+        return feedback
+    
+
+def generate_clean_sheet_feedback(goals_c):
+
+    feedback = []
+
+    if goals_c:
+
+        if goals_c == 0:
+
+            feedback.append("Well Done you kept a clean sheet today")
+
+        else:
+
+            feedback.append("Unlucky you werent able to keep a clean sheet")
+
+        return feedback
+
+
 
 @app.route('/',methods =['GET','POST'])
 def index():
@@ -1630,12 +1874,20 @@ def result():
         goal_rate = winger_calculated_data.get("goal_rate")
         assist_rate = winger_calculated_data.get("assist_rate")
         goal_contributions = winger_calculated_data.get("goal_contributions")
+        key_passes_rate = winger_calculated_data.get("key_passes_rate")
+        dribbles_success_rate = winger_calculated_data.get("dribbles_success_rate")
+        crossing_accuracy = winger_calculated_data.get("crossing_accuracy")
+        
 
         passing_feedback = generate_passing_feedback(passing_accuracy)
         shooting_feedback = generate_shooting_feedback(shot_accuracy,shot_conversion,shots_att)
         goal_contribution_feedback = generate_goal_contribution_feedback(goal_rate,assist_rate,goal_contributions)
+        key_passes_feedback = generate_key_passes_feedback(key_passes_rate)
+        dribbling_feedback = generate_dribbling_feedback(dribbles_success_rate)
+        crossing_feedback = generate_crossing_feedback(crossing_accuracy)
         
-        for feedback in [passing_feedback, shooting_feedback, goal_contribution_feedback]:
+        for feedback in [passing_feedback, shooting_feedback, goal_contribution_feedback,
+                         key_passes_feedback,dribbling_feedback,crossing_feedback]:
 
             if isinstance(feedback, list):
 
@@ -1656,6 +1908,34 @@ def result():
         session["player_position"] = "midfielder"
         position = session.get("player_position")
 
+        passing_accuracy = midfielder_calculated_data.get("passing_accuracy")
+        goal_rate = midfielder_calculated_data.get("goal_rate")
+        assist_rate = midfielder_calculated_data.get("assist_rate")
+        goal_contributions = midfielder_calculated_data.get("goal_contributions")
+        key_passes_rate = midfielder_calculated_data.get("key_passes_rate")
+        dribbles_success_rate = midfielder_calculated_data.get("dribbles_success_rate")
+        tackling_accuracy_rate = midfielder_calculated_data.get("tackling_accuracy_rate")
+        interception_rate = midfielder_calculated_data.get("interception_rate")
+
+
+        passing_feedback = generate_passing_feedback(passing_accuracy)
+        goal_contribution_feedback = generate_goal_contribution_feedback(goal_rate,assist_rate,goal_contributions)
+        key_passes_feedback = generate_key_passes_feedback(key_passes_rate)
+        dribbling_feedback = generate_dribbling_feedback(dribbles_success_rate)
+        tackling_feedback = generate_tackling_feedback(tackling_accuracy_rate)
+        interception_feedback = generate_interception_feedback(interception_rate)
+        
+        for feedback in [passing_feedback, goal_contribution_feedback,key_passes_feedback,dribbling_feedback,
+                         tackling_feedback,interception_feedback,]:
+
+            if isinstance(feedback, list):
+
+                feedback_list.extend(feedback)
+
+            elif feedback:
+                feedback_list.append(feedback)
+        
+
     elif form_type == "defender":
 
         player_inputted_data = session.get("defender_data")
@@ -1666,6 +1946,35 @@ def result():
 
         session["player_position"] = "defender"
         position = session.get("player_position")
+
+        passing_accuracy = defender_calculated_data.get("passing_accuracy")
+        tackling_accuracy_rate = defender_calculated_data.get("tackling_accuracy_rate")
+        interception_rate = defender_calculated_data.get("interception_rate")
+        clearance_rate = defender_calculated_data.get("clearance_rate")
+        block_rate = defender_calculated_data.get("block_rate")
+        aerial_duel_success_rate = defender_calculated_data.get("aerial_duel_success_rate")
+        fouls_committed_rate = defender_calculated_data.get("fouls_committed_rate")
+
+
+        passing_feedback = generate_passing_feedback(passing_accuracy)
+        tackling_feedback = generate_tackling_feedback(tackling_accuracy_rate)
+        interception_feedback = generate_interception_feedback(interception_rate)
+        clearance_feedback = generate_clearance_feedback(clearance_rate)
+        block_feedback = generate_block_feedback(block_rate)
+        aerial_duel_feedback = generate_aerial_duel_feedback(aerial_duel_success_rate)
+        fouls_committed_feedback = generate_fouls_committed_feedback(fouls_committed_rate)
+
+
+        for feedback in [passing_feedback,tackling_feedback,interception_feedback,clearance_feedback,block_feedback,
+                         aerial_duel_feedback,fouls_committed_feedback]:
+
+            if isinstance(feedback, list):
+
+                feedback_list.extend(feedback)
+
+            elif feedback:
+                feedback_list.append(feedback)
+
 
 
     elif form_type == "goalkeeper":
@@ -1678,6 +1987,32 @@ def result():
 
         session["player_position"] = "goalkeeper"
         position = session.get("player_position")
+
+        passing_accuracy = goalkeeper_calculated_data.get("passing_accuracy")
+        save_percentage = goalkeeper_calculated_data.get("save_percentage")
+        goals_conceded = goalkeeper_calculated_data.get("goals_conceded")
+        save_to_goal_ratio = goalkeeper_calculated_data.get("save_to_goal_ratio")
+        errors_per_90 = goalkeeper_calculated_data.get("errors_per_90")
+        clean_sheet = goalkeeper_calculated_data.get("clean_sheet")
+
+        passing_feedback = generate_passing_feedback(passing_accuracy)
+        save_percentage_feedback = generate_save_percentage_feedback(save_percentage)
+        goals_conceded_feedback = generate_goals_conceded_feedback(goals_conceded)
+        save_to_goal_ratio_feedback = generate_save_to_goal_feedback(save_to_goal_ratio)
+        errors_per_90_feedback = generate_errors_per_90_feedback(errors_per_90)
+        clean_sheet_feedback = generate_clean_sheet_feedback(clean_sheet)
+
+
+        for feedback in [passing_feedback,save_percentage_feedback,goals_conceded_feedback,save_to_goal_ratio_feedback,errors_per_90_feedback,
+                         clean_sheet_feedback]:
+
+            if isinstance(feedback, list):
+
+                feedback_list.extend(feedback)
+
+            elif feedback:
+                feedback_list.append(feedback)
+
 
     else:
         return redirect("/")
