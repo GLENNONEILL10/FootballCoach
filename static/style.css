@@ -71,6 +71,30 @@ body, html {
     background-color: #003060;
 }
 
+
+.position-selector-container {
+    position: absolute; /* Take it out of normal flow */
+    top: 140px;           /* Distance from the top of the page */
+    left: 20px;          /* Distance from the left of the page */
+    background-color: #a6a6a6;
+    padding: 10px 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.position-selector-container label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.position-selector-container select {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 .strikerTable-container {
     display: flex;
     justify-content: center; /* align items to the left */
