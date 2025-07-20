@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Football Coach</title>
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="login-container">
+    <h2>Login</h2>
+  
+    <form action="/login" method="POST" class="login-form">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="Enter Username" required>
+  
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter Password" required>
+  
+      <button type="submit">Log In</button>
+    </form>
+  </div>
+
+{% endblock %}

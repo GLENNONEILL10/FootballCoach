@@ -1,7 +1,17 @@
 from flask import Flask,render_template,request,session,redirect
+from flask_sqlalchemy import SQLAlchemy
+from models import db,User,Submission
+from routes.auth import auth
+import json
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key' 
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///football.db'
+
+app.register_blueprint(auth)
+
+db.init_app(app)
 
 def passing_calculation(passes_att,passes_comp):
     
@@ -2016,6 +2026,20 @@ def result():
 
     else:
         return redirect("/")
+    
+    if 'user_id' in session:
+
+        new_submission = Submission(
+
+            position=session.get("player_position"),
+            inputted_data=session.get("player_inputted_data"),
+            calculated_data=session.get("player_calculated_data"),
+            user_id=session['user_id']
+
+        )
+
+        db.session.add(new_submission)
+        db.session.commit()
 
     if not player_inputted_data or not player_calculated_data :
 
@@ -2023,6 +2047,11 @@ def result():
 
     return render_template('result.html',player_inputted_data=player_inputted_data,player_calculated_data=player_calculated_data,position=position
                                         ,feedback_list=feedback_list)
+
+@app.route('/history')
+def history():
+
+    pass
 
 
 if __name__ == "__main__":
