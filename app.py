@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,session,redirect
+from flask import Flask,render_template,request,session,redirect,url_for,flash
 from flask_sqlalchemy import SQLAlchemy
 from models import db,User,Submission
 from routes.auth import auth
@@ -12,6 +12,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///football.db'
 app.register_blueprint(auth)
 
 db.init_app(app)
+
+with app.app_context():
+        
+    db.create_all()
+
 
 def passing_calculation(passes_att,passes_comp):
     
@@ -669,6 +674,10 @@ def generate_clean_sheet_feedback(goals_c):
 def index():
 
     error = None
+
+    if 'user_id' not in session:
+
+        return redirect(url_for('auth.login'))
  
     if request.method == "POST":
 
@@ -1818,6 +1827,14 @@ def result():
     form_type = session.get("position")
     feedback_list = []
 
+    user_id = session.get("user_id")
+
+    if not user_id:
+
+        flash("Log in To Save info","warning")
+
+        return redirect(url_for("auth.login"))
+
     if form_type == "striker":
 
         player_inputted_data = session.get("striker_data")
@@ -1854,6 +1871,18 @@ def result():
         touches_in_opp_box_per_90_feedback = generate_touches_in_opp_box_feedback(touches_in_box_rate)
         offsides_feedback = generate_offside_feedback(offsides_rate)
         fouls_drawn_feedback = generate_fouls_drawn_feedback(fouls_drawn_rate)
+
+        sub = Submission(
+
+            user_id = user_id,
+            position = session["position"],
+            inputted_data = json.dumps(session["striker_data"]),
+            calculated_data = json.dumps(session["striker_calculated_stats"])
+
+        )
+
+        db.session.add(sub)
+        db.session.commit()
     
 
         for feedback in [passing_feedback, shooting_feedback, goal_contribution_feedback,key_passes_feedback,dribbling_feedback,
@@ -1895,6 +1924,18 @@ def result():
         key_passes_feedback = generate_key_passes_feedback(key_passes_rate)
         dribbling_feedback = generate_dribbling_feedback(dribbles_success_rate)
         crossing_feedback = generate_crossing_feedback(crossing_accuracy)
+
+        sub = Submission(
+
+            user_id = user_id,
+            position = session["position"],
+            inputted_data = json.dumps(session["winger_data"]),
+            calculated_data = json.dumps(session["winger_calculated_stats"])
+
+        )
+
+        db.session.add(sub)
+        db.session.commit()
         
         for feedback in [passing_feedback, shooting_feedback, goal_contribution_feedback,
                          key_passes_feedback,dribbling_feedback,crossing_feedback]:
@@ -1934,6 +1975,18 @@ def result():
         dribbling_feedback = generate_dribbling_feedback(dribbles_success_rate)
         tackling_feedback = generate_tackling_feedback(tackling_accuracy_rate)
         interception_feedback = generate_interception_feedback(interception_rate)
+
+        sub = Submission(
+
+            user_id = user_id,
+            position = session["position"],
+            inputted_data = json.dumps(session["midfielder_data"]),
+            calculated_data = json.dumps(session["midfielder_calculated_stats"])
+
+        )
+
+        db.session.add(sub)
+        db.session.commit()
         
         for feedback in [passing_feedback, goal_contribution_feedback,key_passes_feedback,dribbling_feedback,
                          tackling_feedback,interception_feedback,]:
@@ -1974,6 +2027,18 @@ def result():
         aerial_duel_feedback = generate_aerial_duel_feedback(aerial_duel_success_rate)
         fouls_committed_feedback = generate_fouls_committed_feedback(fouls_committed_rate)
 
+        sub = Submission(
+
+            user_id = user_id,
+            position = session["position"],
+            inputted_data = json.dumps(session["defender_data"]),
+            calculated_data = json.dumps(session["defender_calculated_stats"])
+
+        )
+
+        db.session.add(sub)
+        db.session.commit()
+
 
         for feedback in [passing_feedback,tackling_feedback,interception_feedback,clearance_feedback,block_feedback,
                          aerial_duel_feedback,fouls_committed_feedback]:
@@ -2011,6 +2076,18 @@ def result():
         save_to_goal_ratio_feedback = generate_save_to_goal_feedback(save_to_goal_ratio)
         errors_per_90_feedback = generate_errors_per_90_feedback(errors_per_90)
         clean_sheet_feedback = generate_clean_sheet_feedback(clean_sheet)
+
+        sub = Submission(
+
+            user_id = user_id,
+            position = session["position"],
+            inputted_data = json.dumps(session["goalkeeper_data"]),
+            calculated_data = json.dumps(session["goalkeeper_calculated_stats"])
+
+        )
+
+        db.session.add(sub)
+        db.session.commit()
 
 
         for feedback in [passing_feedback,save_percentage_feedback,goals_conceded_feedback,save_to_goal_ratio_feedback,errors_per_90_feedback,

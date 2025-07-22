@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <title>History – Football Coach</title>
+{% endblock %}
+
+{% block body %}
+  <h2>Your Feedback History</h2>
+
+  <form method="get" action="{{ url_for('history.view_history') }}" class="history-filter">
+    <label for="position">Show:</label>
+    <select name="position" id="position">
+      {% for pos in positions %}
+        <option value="{{ pos }}" {% if pos == selected_position %}selected{% endif %}>
+          {{ pos.title() }}
+        </option>
+      {% endfor %}
+    </select>
+    <button type="submit">View</button>
+  </form>
+
+  <div class="history-container">
+    {% if submissions %}
+      {% for sub in submissions %}
+        <div class="history-item">
+          <h3>{{ sub.position.title() }} – {{ sub.timeStamp.strftime('%Y-%m-%d %H:%M') }}</h3>
+          <ul>
+            {% for key, value in sub.calculated.items() %}
+              <li>{{ key.replace('_', ' ').title() }}: {{ value }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No feedback saved for {{ selected_position.title() }} yet.</p>
+    {% endif %}
+  </div>
+{% endblock %}

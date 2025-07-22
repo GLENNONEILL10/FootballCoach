@@ -27,7 +27,7 @@ def login():
 
         flash("Logged In Successfully","success")
 
-        return redirect(url_for("app.index"))
+        return redirect(url_for("index"))
     
     return render_template("login.html")
 
@@ -38,7 +38,7 @@ def register():
     if request.method == "POST":
 
         first_name = request.form["firstName"]
-        surname = request.form["surname"]
+        last_name = request.form["last_name"]
         email = request.form["email"]
         username = request.form["username"]
         password = request.form["password"]
@@ -63,7 +63,7 @@ def register():
         new_user = User(
 
             first_name = first_name,
-            surname = surname,
+            last_name = last_name,
             email = email,
             username = username,
             password = hashed_password,

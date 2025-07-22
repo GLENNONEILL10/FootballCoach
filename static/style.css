@@ -390,4 +390,44 @@ body, html {
   .login-form button:hover {
     background-color: #1f7ecb;
   }
+
+  .history-filter {
+    margin-bottom: 20px;
+  }
+  .history-filter select {
+    padding: 6px;
+    border-radius: 4px;
+    margin-right: 8px;
+  }
+  .history-filter button {
+    padding: 6px 12px;
+    border-radius: 4px;
+    background-color: #2a9df4;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .history-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+  }
+  
+  /* Style the link like a button */
+  .history-container .history-btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #2a9df4;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+  }
+  
+  .history-container .history-btn:hover {
+    background-color: #1f7ecb;
+  }
   

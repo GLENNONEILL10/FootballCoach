@@ -23,4 +23,4 @@ class Submission(db.Model):
     calculated_data = db.Column(db.Text, nullable=False)
     timeStamp = db.Column(db.DateTime(timezone=True), default=datetime.now)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
