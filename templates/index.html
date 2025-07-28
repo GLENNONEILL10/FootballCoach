@@ -23,6 +23,12 @@
 
     </div>
     {% endif%}
+
+    <div class = "logout-container">
+
+        <a href="{{url_for('auth.logout')}}" class="logout_btn">Logout</a>
+
+    </div>
     
     
     <div class = "position-selector-container">
@@ -41,9 +47,9 @@
 
     </div>
 
-    <div class="history-container">
+    <div class="history-button-container">
 
-        <a href="{{ url_for('history') }}" class="history-btn">History</a>
+        <a href="{{ url_for('history.view_history') }}" class="history-btn">History</a>
 
       </div>
 

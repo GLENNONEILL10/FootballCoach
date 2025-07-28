@@ -5,8 +5,37 @@
 {% endblock %}
 
 {% block body %}
-  <h2>Your Feedback History</h2>
+<div class="page-wrap">
 
+  <h2>Your History</h2>
+
+  {# –– Combined Stats –– #}
+  {% if combined_stats %}
+    <div class="combined-stats-card">
+      <h3> Combined Averages ({{ submissions|length }} entries)</h3>
+      <ul>
+        {% for key, value in combined_stats.items() %}
+          {% if value is not none %}
+            <li>
+              <strong>{{ key.replace('_',' ').title() }}:</strong>
+              {{ value | round(2) }}
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    
+      <h4>Feedback</h4>
+
+    <ul class="combined-feedback-list">
+      {% for msg in combined_feedback %}
+        <li>{{ msg }}</li>
+      {% endfor %}
+    </ul>
+      
+    </div>
+  {% endif %}
+
+  {# –– Filter Form –– #}
   <form method="get" action="{{ url_for('history.view_history') }}" class="history-filter">
     <label for="position">Show:</label>
     <select name="position" id="position">
@@ -19,20 +48,30 @@
     <button type="submit">View</button>
   </form>
 
+  {# –– Entries Grid –– #}
   <div class="history-container">
     {% if submissions %}
       {% for sub in submissions %}
-        <div class="history-item">
-          <h3>{{ sub.position.title() }} – {{ sub.timeStamp.strftime('%Y-%m-%d %H:%M') }}</h3>
+        <div class="history-item-card">
+          <h4>
+            {{ sub.position.title() }}
+            <span class="timestamp">{{ sub.timeStamp.strftime('%Y-%m-%d %H:%M') }}</span>
+          </h4>
           <ul>
-            {% for key, value in sub.calculated.items() %}
-              <li>{{ key.replace('_', ' ').title() }}: {{ value }}</li>
+            {% for key, value in combined_stats.items() %}
+                {% if value is not none %}
+                <li>
+                    <strong>{{ key.replace('_',' ').title() }}:</strong>
+                    {{ value | round(2) }}
+                </li>
+                {% endif %}
             {% endfor %}
-          </ul>
+            </ul>
         </div>
       {% endfor %}
     {% else %}
-      <p>No feedback saved for {{ selected_position.title() }} yet.</p>
+      <p class="no-entries">No feedback saved for {{ selected_position.title() }} yet.</p>
     {% endif %}
   </div>
+</div>
 {% endblock %}
