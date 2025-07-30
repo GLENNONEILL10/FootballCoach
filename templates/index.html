@@ -10,13 +10,7 @@
 
 {% block body %}
 
-    <div class = "mainHeader-container">
-
-        <h1>Football Coach</h1>
-
-    </div>
-
-    {% if error %}
+{% if error %}
     <div class = "errorStyle">
 
         <p>{{ error }}</p>
@@ -24,34 +18,40 @@
     </div>
     {% endif%}
 
-    <div class = "logout-container">
+    <header class="app-header">
+        <div class="header-top">
+          <h1>Football Coach</h1>
+        </div>
+        <div class="header-bottom">
+          <div class="header-left">
 
-        <a href="{{url_for('auth.logout')}}" class="logout_btn">Logout</a>
+            {% if session.get('user_id') %}
+            
+                    <a href="{{ url_for('auth.logout') }}" class="logout-btn">Logout</a>
 
-    </div>
-    
-    
-    <div class = "position-selector-container">
+                {% else %}
 
-        <label for ="position">Position</label>
-        <select name="position" id ="position" required onchange="showPositionFields(this.value)">
-
-            <option value="">Select Position</option>
-            <option value="striker">Striker</option>
-            <option value="winger">Winger</option>
-            <option value="midfielder">Midfielder</option>
-            <option value="defender">Defender</option>
-            <option value="goalkeeper">Goalkeeper</option>
-
-        </select>
-
-    </div>
-
-    <div class="history-button-container">
-
-        <a href="{{ url_for('history.view_history') }}" class="history-btn">History</a>
-
-      </div>
+                    <a href="{{ url_for('auth.login') }}" class="logout-btn">Login</a>
+                {% endif %}
+          </div>
+          <div class="header-center">
+            <label for="position">Position</label>
+            <select name="position" id="position" onchange="showPositionFields(this.value)">
+              <!-- options -->
+              <option value="">Select Position</option>
+              <option value="striker">Striker</option>
+              <option value="winger">Winger</option>
+              <option value="midfielder">Midfielder</option>
+              <option value="defender">Defender</option>
+              <option value="goalkeeper">Goalkeeper</option>
+              
+            </select>
+          </div>
+          <div class="header-right">
+            <a href="{{ url_for('history.view_history') }}" class="history-btn">History</a>
+          </div>
+        </div>
+      </header>
 
     <div id = "striker-fields" class="position-fields" style ="display: none;">
         <form action = "/" method = "POST">

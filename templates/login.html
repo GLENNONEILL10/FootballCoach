@@ -21,6 +21,12 @@
   
       <button type="submit">Log In</button>
     </form>
+
+    <p class="login-register-prompt">
+        Don’t have an account? 
+        <a href="{{ url_for('auth.register') }}" class="register-link">Register here</a>
+      </p>
+
   </div>
 
 {% endblock %}
