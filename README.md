@@ -83,7 +83,8 @@ Example:
 <img width="1889" height="869" alt="Screenshot 2025-07-30 010943" src="https://github.com/user-attachments/assets/e8564e94-d874-466e-9c2c-09e934698bf1" />
 
 
-<img width="1667" height="617" alt="Screenshot 2025-07-30 011016" src="https://github.com/user-attachments/assets/71d2ffda-ee27-4d1a-945a-dfe50119ab4d" />
+<img width="1387" height="892" alt="Screenshot 2025-07-30 010954" src="https://github.com/user-attachments/assets/bc830f8f-b237-49c0-a490-3e45b6ff4b46" />
+
 
 
 🧾 What I Learned
